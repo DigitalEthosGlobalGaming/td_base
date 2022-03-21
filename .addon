@@ -1,0 +1,13 @@
+{
+  "Title": "TD Base",
+  "Type": "game",
+  "Org": "local",
+  "Ident": "td_base",
+  "Schema": 1,
+  "HasAssets": true,
+  "AssetsPath": "",
+  "ResourcePaths": [],
+  "HasCode": true,
+  "CodePath": "/code/",
+  "RootNamespace": "Sandbox"
+}
