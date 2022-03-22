@@ -36,7 +36,7 @@ namespace Degg.GridSystem
 
 		public virtual void ClientTick( float delta, float currentTick )
 		{
-			DebugOverlay.Sphere( GetWorldPosition(), 10f, Color.Red );
+			
 		}
 		public virtual void ServerTick( float delta, float currentTick )
 		{

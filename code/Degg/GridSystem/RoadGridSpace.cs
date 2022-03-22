@@ -23,7 +23,27 @@ namespace Degg.GridSystem.GridSpaces
 		public override void OnAddToMap()
 		{
 			base.OnAddToMap();
+			UpdateNeighbours();
 			UpdateModel();
+		}
+
+		public void UpdateNeighbours()
+		{
+			RoadGridSpace[] neighbours = this.GetNeighbours<RoadGridSpace>();
+
+			foreach(var neighbour in neighbours)
+			{
+				neighbour?.UpdateModel();
+			}
+		}
+
+		protected override void OnDestroy()
+		{
+			base.OnDestroy();
+			if ( IsServer )
+			{
+				UpdateNeighbours();
+			}
 		}
 
 		public virtual string GetModelForRoadType(RoadTypeEnum roadType )
@@ -33,7 +53,7 @@ namespace Degg.GridSystem.GridSpaces
 				case RoadTypeEnum.StreetEmpty:
 					return "models/tiles/tile.vmdl";
 				case RoadTypeEnum.Straight:
-					return "models/tiles/street_straight.vmdl";
+					return "models/tiles/tile_straight.vmdl";
 				case RoadTypeEnum.Corner:
 					return "models/tiles/tile_corner.vmdl";
 				case RoadTypeEnum.ThreeWay:
@@ -51,7 +71,7 @@ namespace Degg.GridSystem.GridSpaces
 		}
 
 
-		public virtual void OnNeighbourTileControllerChange( GridSpace tile, Direction dir )
+		public virtual void OnNeighbourTileControllerChange( GridSpace tile )
 		{
 			UpdateModel();
 		}
@@ -173,7 +193,6 @@ namespace Degg.GridSystem.GridSpaces
 			}
 
 			RoadType = newRoadType;
-
 
 			var TargetRotation = Rotation.FromAxis( Vector3.Up, rotation );
 

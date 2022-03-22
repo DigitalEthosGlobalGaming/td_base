@@ -87,32 +87,50 @@ namespace Degg.GridSystem
 					{
 						var tempX = x;
 						var tempY = y;
-						SetupFunctions.Enqueue( () => CreateNextTile<T>( tempX, tempY ) );
+						SetupFunctions.Enqueue( () => AddTile<T>( tempX, tempY ) == null );
 					}
 				}
 				CanSetup = true;
 			}
 		}
 
-		public bool CreateNextTile<T>(int x, int y) where T : GridSpace, new()
+
+		public T AddTile<T>( int x, int y ) where T : GridSpace, new()
 		{
+			var existing = GetSpace( x, y );
+			var existingIndex = -1;
+			if ( existing != null )
+			{
+				existingIndex = Grid.IndexOf( existing );
+			}
+
 			try
 			{
 				var newSpace = new T();
 				newSpace.Scale = TileScale;
 				newSpace.Map = this;
 				newSpace.GridPosition = new Vector2( x, y );
-				Grid.Add( newSpace );
+				if ( existingIndex >= 0 )
+				{
+					Grid.RemoveAt( existingIndex );
+					Grid.Insert( existingIndex, newSpace );
+					existing.Delete();
+				}
+				else
+				{
+					Grid.Add( newSpace );
+				}
 				newSpace.SetParent( this );
 				OnSpaceSetup( newSpace );
 				newSpace.OnAddToMap();
-				return true;
-			} catch(Exception e)
+				return newSpace;
+			}
+			catch ( Exception e )
 			{
 				Log.Info( e );
-				return false;
+				return null;
 			}
-			
+
 		}
 
 		public void CheckFinish()

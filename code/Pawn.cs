@@ -1,14 +1,21 @@
-﻿using Sandbox;
+﻿using Degg.GridSystem;
+using Degg.GridSystem.GridSpaces;
+using Degg.Util;
+using Sandbox;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using TDBase;
 
 namespace Sandbox
 {
-	partial class Pawn : AnimEntity
+	public partial class Pawn : AnimEntity
 	{
 		[Net]
 		public PlayerMap Map { get; set; }
+
+		[Net]
+		public GridSpace CurrentHoveredTile { get; set; }
 		/// <summary>
 		/// Called when the entity is first created 
 		/// </summary>
@@ -24,17 +31,59 @@ namespace Sandbox
 			EnableDrawing = true;
 			EnableHideInFirstPerson = true;
 			EnableShadowInFirstPerson = true;
+			
+			if (IsServer)
+			{
+				MyGame.AddActivePawn( this );
+			}
 
+			Log.Info( "Spawn!" );
+
+
+			SetupMap();
+		}
+
+		protected override void OnDestroy()
+		{
+			if ( IsServer )
+			{
+				MyGame.RemoveActivePawn( this );
+				if ( Map != null )
+				{
+					Map.Delete();
+				}
+			}
+		}
+
+		public Vector3 GetMapPosition()
+		{
+			int index = MyGame.ActivePawns.IndexOf( this );
+			var cols = 4;
+			float y = index % cols;
+			float x = (float) Math.Floor( (decimal)(index / cols) );
+			return new Vector3( x * Map.GridSize.x  * (Map.XSize + 2), y * Map.GridSize.y * (Map.YSize + 2), 100f );
+		}
+
+
+		public void SetupMap()
+		{
+			if (Map != null)
+			{
+				Map.Delete();
+				Map = null;
+			}
 
 			if ( Map == null )
 			{
-				Position = Vector3.Zero + (Vector3.Up * 300f);
 				var playerMap = new PlayerMap();
 				playerMap.Owner = this;
 				Map = playerMap;
-				playerMap.Position = this.Position + (Vector3.Down * 150f);
+				Map.Init( 20, 20 );
 
-				Map.Init( 5, 5 );
+				playerMap.Position = GetMapPosition();
+
+				var size = playerMap.GetMapSize() / 1.75f;
+				Position = playerMap.Position + (Vector3.Up * 500f) + (Vector3.Forward * size.x);
 			}
 		}
 
@@ -45,17 +94,19 @@ namespace Sandbox
 		{
 			base.Simulate( cl );
 
-			Rotation = Input.Rotation;
+
+			// Update rotation every frame, to keep things smooth
+			Rotation = Rotation.From( 45, 180, 0 ); // Input.Rotation;
 			EyeRotation = Rotation;
 
 			// build movement from the input values
-			var movement = new Vector3( Input.Forward, Input.Left, 0 ).Normal;
+			var movement = new Vector3( -Input.Forward, -Input.Left, 0 ).Normal;
 
 			// rotate it to the direction we're facing
-			Velocity = Rotation * movement;
+			Velocity =  movement;
 
 			// apply some speed to it
-			Velocity *= Input.Down( InputButton.Run ) ? 1000 : 200;
+			Velocity *= Input.Down( InputButton.Run ) ? 1000 : 500;
 
 			// apply it to our position using MoveHelper, which handles collision
 			// detection and sliding across surfaces for us
@@ -66,15 +117,39 @@ namespace Sandbox
 				Position = helper.Position;
 			}
 
-			// If we're running serverside and Attack1 was just pressed, spawn a ragdoll
-			if ( IsServer && Input.Pressed( InputButton.Attack1 ) )
+			var endPos = EyePosition + (EyeRotation.Forward * 4000);
+			var mytrace = Trace.Ray( EyePosition, endPos );
+			var tr = mytrace.Run();
+
+			if ( IsServer )
 			{
-				var ragdoll = new ModelEntity();
-				ragdoll.SetModel( "models/citizen/citizen.vmdl" );
-				ragdoll.Position = EyePosition + EyeRotation.Forward * 40;
-				ragdoll.Rotation = Rotation.LookAt( Vector3.Random.Normal );
-				ragdoll.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
-				ragdoll.PhysicsGroup.Velocity = EyeRotation.Forward * 1000;
+				if ( tr.Entity != null && tr.Entity is GridSpace )
+				{
+					GridSpace ent = (GridSpace)tr.Entity;
+					CurrentHoveredTile = ent;
+				} else
+				{
+					CurrentHoveredTile = null;
+				}
+
+				if ( CurrentHoveredTile != null )
+				{
+					if ( Input.Pressed( InputButton.Attack1 ) )
+					{
+						var position = CurrentHoveredTile.GridPosition;
+						Map.AddTile<RoadGridSpace>( (int)position.x, (int)position.y );
+					}
+					else if ( Input.Pressed( InputButton.Attack2 ) )
+					{
+						var position = CurrentHoveredTile.GridPosition;
+						Map.AddTile<GridSpace>( (int)position.x, (int)position.y );
+					}
+				}
+			}
+
+			if ( CurrentHoveredTile  != null)
+			{
+				DebugOverlay.Sphere( CurrentHoveredTile.Position, 100f, Color.Red );
 			}
 		}
 
@@ -85,9 +160,6 @@ namespace Sandbox
 		{
 			base.FrameSimulate( cl );
 
-			// Update rotation every frame, to keep things smooth
-			Rotation = Input.Rotation;
-			EyeRotation = Rotation;
 		}
 	}
 }
