@@ -1,7 +1,4 @@
-﻿
-using Degg.GridSystem;
-using Sandbox;
-using static Degg.GridSystem.GridMap;
+﻿using Sandbox;
 
 namespace Degg.GridSystem.GridSpaces
 {
@@ -25,6 +22,15 @@ namespace Degg.GridSystem.GridSpaces
 			base.OnAddToMap();
 			UpdateNeighbours();
 			UpdateModel();
+		}
+
+		public override float GetMovementWeight( GridSpace a, NavPoint n )
+		{
+			if (a is RoadGridSpace)
+			{
+				return 10;
+			}
+			return -1;
 		}
 
 		public void UpdateNeighbours()

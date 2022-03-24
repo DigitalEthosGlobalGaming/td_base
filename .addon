@@ -1,7 +1,7 @@
 {
   "Title": "TD Base",
   "Type": "game",
-  "Org": "local",
+  "Org": "degg",
   "Ident": "td_base",
   "Schema": 1,
   "HasAssets": true,

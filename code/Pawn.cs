@@ -2,6 +2,7 @@
 using Degg.GridSystem.GridSpaces;
 using Degg.Util;
 using Sandbox;
+using Sandbox.Degg;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,6 +79,10 @@ namespace Sandbox
 				var playerMap = new PlayerMap();
 				playerMap.Owner = this;
 				Map = playerMap;
+				playerMap.OnSetupAction = () =>
+				{
+					Map.LoadFromString( BaseMaps.Map1 );
+				};
 				Map.Init( 20, 20 );
 
 				playerMap.Position = GetMapPosition();
@@ -137,7 +142,19 @@ namespace Sandbox
 					if ( Input.Pressed( InputButton.Attack1 ) )
 					{
 						var position = CurrentHoveredTile.GridPosition;
-						Map.AddTile<RoadGridSpace>( (int)position.x, (int)position.y );
+						if ( CurrentHoveredTile is TDGridSpace gridSpace )
+						{
+							gridSpace.Type = gridSpace.Type + 1;
+							if (gridSpace.Type > 2)
+							{
+								gridSpace.Type = 0;
+							}
+							gridSpace.UpdateModel();
+						}
+						else
+						{
+							Map.AddTile<TDGridSpace>( (int)position.x, (int)position.y );
+						}
 					}
 					else if ( Input.Pressed( InputButton.Attack2 ) )
 					{
@@ -159,7 +176,6 @@ namespace Sandbox
 		public override void FrameSimulate( Client cl )
 		{
 			base.FrameSimulate( cl );
-
 		}
 	}
 }

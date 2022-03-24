@@ -35,6 +35,8 @@ namespace Degg.GridSystem
 
 		public Queue<Func<bool>> SetupFunctions { get; set; }
 
+		public Action OnSetupAction { get; set; }
+
 		[Net]
 		public Vector2 GridSize { get; set; }
 
@@ -197,6 +199,11 @@ namespace Degg.GridSystem
 		}
 
 
+		public List<GridSpace> CreatePath( GridSpace start, GridSpace end )
+		{
+			var mesh = new NavMesh( this );
+			return mesh.BuildPath( start.GridPosition, end.GridPosition );
+		}
 		public List<GridSpace> CreatePath(Vector2 start, Vector2 end )
 		{
 			var mesh =  new NavMesh( this );
@@ -318,6 +325,8 @@ namespace Degg.GridSystem
 					{
 						IsSetup = true;
 						OnSetup();
+
+						OnSetupAction?.Invoke();
 					}
 				}
 			}
