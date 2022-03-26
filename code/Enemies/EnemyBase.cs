@@ -30,11 +30,18 @@ namespace TDBase.Enemies
 			}
 
 			SetModel( "models/enemies/demon.vmdl" );
-			Scale = 0.5f;
+			Position = Position.WithZ( Position.z + 10f );
+			Scale = 0.25f;
 			IsSetup = true;
 
 		}
 
+		protected override void OnDestroy()
+		{
+			base.OnDestroy();
+			Map?.EnemyEntities?.Remove( this );
+		}
+		
 		public void MoveToNextSpot()
 		{
 			Percentage = 0;
@@ -80,7 +87,6 @@ namespace TDBase.Enemies
 				Position = worldPosition.LerpTo( nextSpace, Percentage );
 				Rotation = Rotation.LookAt( nextSpace - Position, Vector3.Up );
 			}
-
 		}
 	}
 }

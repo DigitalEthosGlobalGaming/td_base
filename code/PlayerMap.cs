@@ -20,11 +20,11 @@ namespace TDBase
 
 
 		public Queue<Type> Enemies { get; set; }
+		public List<EnemyBase> EnemyEntities { get; set; }
 
 		public Timer EnemySpawner { get; set; }
 		public Timer RoundSystem { get; set; }
 		public List<GridSpace> EnemyPath { get; set; }
-
 
 		public void Init(int xAmount, int yAmount)
 		{
@@ -64,6 +64,11 @@ namespace TDBase
 					}, 1000);
 				EnemySpawner.Start();
 			}
+
+			if ( EnemyEntities == null)
+			{
+				EnemyEntities = new List<EnemyBase>();
+			}
 			
 		}
 
@@ -84,11 +89,10 @@ namespace TDBase
 				
 				if ( Enemies.TryDequeue( out var myEnemy ) )
 				{
-					AdvLog.Info( "About to call" );
 					var enemy = Library.Create<EnemyBase>( myEnemy );
 					enemy.Map = this;
 					enemy.Setup();
-					AdvLog.Info( myEnemy );
+					EnemyEntities.Add( enemy );
 				}
 			}
 			
@@ -142,6 +146,13 @@ namespace TDBase
 			if (RoundSystem != null)
 			{
 				RoundSystem.Delete();
+			}
+			if (EnemyEntities != null)
+			{
+				foreach ( var item in EnemyEntities )
+				{
+					item.Delete();
+				}
 			}
 		}
 

@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Degg.TDBase.Weapons;
+using Sandbox;
 
 namespace Degg.TDBase.Towers
 {
@@ -13,6 +14,8 @@ namespace Degg.TDBase.Towers
 			SetBodyGroup( "bottom", Rand.Int( 1, 3 ) );
 			SetBodyGroup( "middle", Rand.Int( 1, 3 ) );
 			SetBodyGroup( "top", Rand.Int( 1, 3 ) );
+			Equip<PelletWeapon>();
 		}
+
 	}
 }
