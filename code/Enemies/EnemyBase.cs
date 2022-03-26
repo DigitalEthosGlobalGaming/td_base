@@ -1,4 +1,5 @@
 ﻿using Degg.GridSystem;
+using Degg.TDBase.Weapons;
 using Sandbox;
 
 
@@ -13,7 +14,11 @@ namespace TDBase.Enemies
 
 		public float Percentage { get; set; }
 		public float Movespeed { get; set; }
-
+		public virtual string EnemyName { get; set; }
+		public virtual float EnemyHealth {get;set;}
+		public virtual float BaseHealth {get;set;}
+		public virtual int MinCash => 12;
+		public virtual int MaxCash => 20;
 		public GridSpace PreviousSpace { get; set; }
 		public GridSpace NextSpace { get; set; }
 		public override void Spawn()
@@ -33,6 +38,7 @@ namespace TDBase.Enemies
 			Position = Position.WithZ( Position.z + 10f );
 			Scale = 0.25f;
 			IsSetup = true;
+			EnemyHealth = BaseHealth;
 
 		}
 
@@ -65,10 +71,18 @@ namespace TDBase.Enemies
 		[Event.Tick]
 		public void Tick()
 		{
-			if ( !IsSetup || Map == null )
+			if ( !IsSetup)
 			{
 				return;
 			}
+
+			if (Map == null)
+			{
+				Delete();
+				return;
+			}
+
+
 
 			Percentage = Percentage + (Movespeed * Time.Delta);
 
@@ -86,6 +100,21 @@ namespace TDBase.Enemies
 
 				Position = worldPosition.LerpTo( nextSpace, Percentage );
 				Rotation = Rotation.LookAt( nextSpace - Position, Vector3.Up );
+			}
+		}
+
+		public void TriggerDeath( WeaponBase weapon )
+		{
+			Delete();
+		}
+
+		public void TakeDamage(WeaponBase weapon, float amount)
+		{
+			EnemyHealth = EnemyHealth - amount;
+
+			if (EnemyHealth <= 0)
+			{
+				TriggerDeath( weapon );
 			}
 		}
 	}

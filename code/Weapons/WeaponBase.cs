@@ -9,6 +9,8 @@ namespace Degg.TDBase.Weapons
 {
 	public partial class WeaponBase
 	{
+
+
 		public float Range { get; set; }
 		public float Damage { get; set; }
 		public float AttackInterval { get; set; }

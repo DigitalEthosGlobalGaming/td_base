@@ -8,7 +8,7 @@ namespace Degg.TDBase.Weapons
 		public PelletWeapon()
 		{
 			AttackInterval = 1000f;
-			Range = 2500f;
+			Range = 250f;
 			Damage = 1f;
 		}
 
@@ -19,6 +19,7 @@ namespace Degg.TDBase.Weapons
 			if (target != null)
 			{
 				Tower.TargetEntity = target;
+				target.TakeDamage( this, Damage );
 			}
 		}
 	}

@@ -26,7 +26,12 @@ namespace Degg.GridSystem
 
 		public Vector3 GetWorldPosition()
 		{
-			return this.Map.GetWorldSpace( (int)this.GridPosition.x, (int)this.GridPosition.y );
+			if ( Map == null)
+			{
+				return Vector3.Zero;
+			}
+
+			return Map.GetWorldSpace( (int)this.GridPosition.x, (int)this.GridPosition.y );
 		}
 
 		public virtual float GetMovementWeight(GridSpace a, NavPoint n)

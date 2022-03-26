@@ -59,7 +59,7 @@ namespace Sandbox
 				{
 					for ( int i = 0; i < amount; i++ )
 					{
-						playerMap.AddToQueue<EnemyBase>();
+						playerMap.AddToQueue<EnemyDemon>();
 					}					
 				}
 			}

@@ -79,6 +79,11 @@ namespace Degg.TDBase.Towers
 		[Event.Tick.Server]
 		public void Tick()
 		{
+			if (!Space.Map.IsValid())
+			{
+				Delete();
+				return;
+			}
 			var target = TargetPosition.WithZ(Position.z);
 
 			if (TargetEntity != null && TargetEntity.IsValid) 

@@ -16,9 +16,6 @@ namespace TDBase
 		[Net]
 		public float Score { get; set;}
 
-
-
-
 		public Queue<Type> Enemies { get; set; }
 		public List<EnemyBase> EnemyEntities { get; set; }
 
