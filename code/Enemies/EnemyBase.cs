@@ -4,6 +4,7 @@ using Sandbox;
 
 namespace TDBase.Enemies
 {
+	[Library]
 	public partial class EnemyBase : ModelEntity
 	{
 		public PlayerMap Map { get; set; }
@@ -18,7 +19,7 @@ namespace TDBase.Enemies
 		public override void Spawn()
 		{
 			base.Spawn();
-			Movespeed = 10f;
+			Movespeed = 2f;
 		}
 
 		public void Setup()
@@ -28,8 +29,8 @@ namespace TDBase.Enemies
 				return;
 			}
 
-			SetModel( "models/sbox_props/watermelon/watermelon.vmdl" );
-			Scale = 5f;
+			SetModel( "models/enemies/demon.vmdl" );
+			Scale = 0.5f;
 			IsSetup = true;
 
 		}
@@ -57,24 +58,29 @@ namespace TDBase.Enemies
 		[Event.Tick]
 		public void Tick()
 		{
-			if (Map != null)
+			if ( !IsSetup || Map == null )
 			{
-				Setup();
+				return;
 			}
 
-
 			Percentage = Percentage + (Movespeed * Time.Delta);
+
 			if (Percentage > 1f)
 			{
 				MoveToNextSpot();
 			}
+
+
+
 			if (PreviousSpace != null && NextSpace != null)
 			{
-				Position = PreviousSpace.GetWorldPosition().LerpTo( NextSpace.GetWorldPosition(), Percentage );
-			}
+				var worldPosition = PreviousSpace.GetWorldPosition();
+				var nextSpace = NextSpace.GetWorldPosition();
 
+				Position = worldPosition.LerpTo( nextSpace, Percentage );
+				Rotation = Rotation.LookAt( nextSpace - Position, Vector3.Up );
+			}
 
 		}
 	}
-
 }

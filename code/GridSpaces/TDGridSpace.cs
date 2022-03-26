@@ -3,6 +3,11 @@ namespace Degg.GridSystem.GridSpaces
 {
 	public partial class TDGridSpace: RoadGridSpace
 	{
+
+		public override void Spawn()
+		{
+			base.Spawn();
+		}
 		public int Type { get; set; }
 
 		public bool IsSpawner()

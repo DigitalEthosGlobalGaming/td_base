@@ -1,8 +1,12 @@
 ﻿using Degg.GridSystem;
 using Degg.GridSystem.GridSpaces;
+using Degg.Util;
+using Degg.Utils;
 using Sandbox;
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using TDBase.Enemies;
 
 namespace TDBase
 {
@@ -12,7 +16,15 @@ namespace TDBase
 		[Net]
 		public float Score { get; set;}
 
+
+
+
+		public Queue<Type> Enemies { get; set; }
+
+		public Timer EnemySpawner { get; set; }
+		public Timer RoundSystem { get; set; }
 		public List<GridSpace> EnemyPath { get; set; }
+
 
 		public void Init(int xAmount, int yAmount)
 		{
@@ -20,6 +32,7 @@ namespace TDBase
 			// Default tile scale is 10f because our model size is 10f and we want them to be 100f large.
 			TileScale = 10f;
 			Init<GridSpace>( this.Position, new Vector2( 101.0f, 101.0f ), xAmount, yAmount );
+			Enemies = new Queue<Type>();
 
 		}
 
@@ -34,6 +47,56 @@ namespace TDBase
 		{
 			base.OnSetup();
 			CreateEnemyPath();
+			if ( RoundSystem == null )
+			{
+				RoundSystem = new Timer( ( a, b, c ) =>
+				 {
+					 AdvLog.Info( a, b, c );
+					 RoundStart();
+				 }, 1500 );
+			}
+
+			if ( EnemySpawner == null)
+			{
+				EnemySpawner = new Timer((a,b,c) =>
+					{
+						SpawnEnemy();
+					}, 1000);
+				EnemySpawner.Start();
+			}
+			
+		}
+
+		public void AddToQueue<T>() where T: EnemyBase, new()
+		{
+			if ( Enemies != null )
+			{
+				Log.Info( "Added to queue" );
+				Enemies.Enqueue( typeof( T ) );
+			}
+		}
+
+		public void SpawnEnemy()
+		{
+
+			if ( Enemies != null )
+			{
+				
+				if ( Enemies.TryDequeue( out var myEnemy ) )
+				{
+					AdvLog.Info( "About to call" );
+					var enemy = Library.Create<EnemyBase>( myEnemy );
+					enemy.Map = this;
+					enemy.Setup();
+					AdvLog.Info( myEnemy );
+				}
+			}
+			
+		}
+
+		public void RoundStart()
+		{
+			Log.Info( "Round Start" );
 		}
 
 		public void CreateEnemyPath()
@@ -70,6 +133,15 @@ namespace TDBase
 				{
 					EnemyPath = path;
 				}
+			}
+		}
+
+		protected override void OnDestroy()
+		{
+			base.OnDestroy();
+			if (RoundSystem != null)
+			{
+				RoundSystem.Delete();
 			}
 		}
 

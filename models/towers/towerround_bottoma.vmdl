@@ -1,0 +1,380 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:modeldoc29:version{3cec427c-1b0e-4d48-a90a-0436f33a6041} -->
+{
+	rootNode = 
+	{
+		_class = "RootNode"
+		children = 
+		[
+			{
+				_class = "BodyGroupList"
+				children = 
+				[
+					{
+						_class = "BodyGroup"
+						name = "bottom"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"bottom_a",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"bottom_b",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"bottom_c",
+								]
+							},
+						]
+						hidden_in_tools = false
+					},
+					{
+						_class = "BodyGroup"
+						name = "middle"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"middle_a",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"middle_b",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"middle_c",
+								]
+							},
+						]
+						hidden_in_tools = false
+					},
+					{
+						_class = "BodyGroup"
+						name = "top"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"top_a",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"top_b",
+								]
+							},
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"top_c",
+								]
+							},
+						]
+						hidden_in_tools = false
+					},
+				]
+			},
+			{
+				_class = "MaterialGroupList"
+				children = 
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						name = "red"
+						remaps = 
+						[
+							{
+								from = "red.vmat"
+								to = "degg/simple/simple_red.vmat"
+							},
+							{
+								from = "stone.vmat"
+								to = "degg/simple/simple_grey_25.vmat"
+							},
+							{
+								from = "stonedark.vmat"
+								to = "degg/simple/simple_grey_50.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = ""
+					},
+					{
+						_class = "MaterialGroup"
+						name = "green"
+						remaps = 
+						[
+							{
+								from = "degg/simple/simple_red.vmat"
+								to = "degg/simple/simple_green_01.vmat"
+							},
+						]
+					},
+					{
+						_class = "MaterialGroup"
+						name = "dark_orange"
+						remaps = 
+						[
+							{
+								from = "degg/simple/simple_red.vmat"
+								to = "degg/simple/simple_dark_orange.vmat"
+							},
+						]
+					},
+					{
+						_class = "MaterialGroup"
+						name = "orange"
+						remaps = 
+						[
+							{
+								from = "degg/simple/simple_red.vmat"
+								to = "degg/simple/simple_orange.vmat"
+							},
+						]
+					},
+					{
+						_class = "MaterialGroup"
+						name = "blue"
+						remaps = 
+						[
+							{
+								from = "degg/simple/simple_red.vmat"
+								to = "degg/simple/simple_blue.vmat"
+							},
+						]
+					},
+					{
+						_class = "MaterialGroup"
+						name = "dark_brown"
+						remaps = 
+						[
+							{
+								from = "degg/simple/simple_red.vmat"
+								to = "degg/simple/simple_brown_dark.vmat"
+							},
+						]
+					},
+					{
+						_class = "MaterialGroup"
+						name = "light_blue"
+						remaps = 
+						[
+							{
+								from = "degg/simple/simple_red.vmat"
+								to = "degg/simple/simple_light_blue.vmat"
+							},
+						]
+					},
+					{
+						_class = "MaterialGroup"
+						name = "yellow"
+						remaps = 
+						[
+							{
+								from = "degg/simple/simple_red.vmat"
+								to = "degg/simple/simple_yellow.vmat"
+							},
+						]
+					},
+					{
+						_class = "MaterialGroup"
+						name = "brown"
+						remaps = 
+						[
+							{
+								from = "degg/simple/simple_red.vmat"
+								to = "degg/simple/simple_brown.vmat"
+							},
+						]
+					},
+				]
+			},
+			{
+				_class = "RenderMeshList"
+				children = 
+				[
+					{
+						_class = "RenderMeshFile"
+						name = "bottom_a"
+						filename = "models/towers/towerRound_bottomA.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "bottom_b"
+						filename = "models/towers/towerRound_bottomB.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "bottom_c"
+						filename = "models/towers/towerRound_bottomC.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "middle_a"
+						filename = "models/towers/towerRound_middleA.fbx"
+						import_translation = [ 0.0, 0.0, 5.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "middle_b"
+						filename = "models/towers/towerRound_middleB.fbx"
+						import_translation = [ 0.0, 0.0, 5.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "middle_c"
+						filename = "models/towers/towerRound_middleC.fbx"
+						import_translation = [ 0.0, 0.0, 5.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "top_a"
+						filename = "models/towers/towerRound_roofA.fbx"
+						import_translation = [ 0.0, 0.0, 10.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "top_b"
+						filename = "models/towers/towerRound_roofB.fbx"
+						import_translation = [ 0.0, 0.0, 10.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "top_c"
+						filename = "models/towers/towerRound_roofC.fbx"
+						import_translation = [ 0.0, 0.0, 10.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = [  ]
+						}
+					},
+				]
+			},
+		]
+		model_archetype = ""
+		primary_associated_entity = ""
+		anim_graph_name = ""
+	}
+}

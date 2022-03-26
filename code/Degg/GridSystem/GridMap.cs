@@ -323,9 +323,8 @@ namespace Degg.GridSystem
 					}
 					else
 					{
-						IsSetup = true;
 						OnSetup();
-
+						IsSetup = true;
 						OnSetupAction?.Invoke();
 					}
 				}

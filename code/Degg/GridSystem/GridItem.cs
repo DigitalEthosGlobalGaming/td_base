@@ -1,21 +1,43 @@
+using Degg.Util;
 using Sandbox;
 
 namespace Degg.GridSystem
 {
 
-    // A grid item is an individual item on a grid.
-    public abstract class GridItem: ModelEntity
-    {
-        // An offset is where this item would sit on the grid.
-        // When porting to SBox this will allow me to have an item on a "grid" but then it could be slightly left or right of the centre.
-        public Vector3 offset { get; set; }
-        public GridSpace Space { get; set; }
+	// A grid item is an individual item on a grid.
+	public abstract class GridItem : ModelEntity
+	{
+		// An offset is where this item would sit on the grid.
+		// When porting to SBox this will allow me to have an item on a "grid" but then it could be slightly left or right of the centre.
+		public Vector3 Offset { get; set; }
+		public GridSpace Space { get; set; }
+
+		public bool IsSetup {get;set;}
 
         public void Remove()
         {
             Space = null;
             OnRemove();
         }
+
+		public override void Spawn()
+		{
+			base.Spawn();
+			Setup();
+		}
+
+		public void Setup()
+		{
+			if (!IsSetup )
+			{
+				if ( Space != null )
+				{
+					Scale = Space.Map.Scale;
+					UpdatePosition();
+					OnSetup();
+				}
+			}
+		}
 
         public GridMap GetMap()
         {
@@ -30,8 +52,11 @@ namespace Degg.GridSystem
                 return false;
             }
 
-            return map.MoveItem(this, newPosition);
-        }
+            var didMove = map.MoveItem(this, newPosition);
+			UpdatePosition();
+			return didMove;
+
+		}
         public bool MoveBy(Vector2 changes)
         {
 			var currentPosition = GetGridPosition();
@@ -39,7 +64,12 @@ namespace Degg.GridSystem
             return this.Move(newPosition);
         }
 
-        public Vector2 GetGridPosition()
+		public void UpdatePosition()
+		{
+			Position = Space.GetWorldPosition() + Offset;
+		}
+
+		public Vector2 GetGridPosition()
         {
             return Space.GridPosition;
         }
@@ -48,13 +78,21 @@ namespace Degg.GridSystem
         {
 
         }
-        public virtual void OnAdded()
-        {
 
-        }
+		public virtual void OnSetup()
+		{
+
+		}
+
+		public virtual void OnAdded()
+        {
+			Setup();
+			UpdatePosition();
+		}
         public virtual void OnMove(Vector2 newPosition, Vector2 oldPosition)
         {
 
         }
+
     }
 }

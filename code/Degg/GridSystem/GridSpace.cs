@@ -1,4 +1,5 @@
 
+using Degg.Util;
 using Sandbox;
 using System.Collections.Generic;
 
@@ -14,8 +15,13 @@ namespace Degg.GridSystem
 		public GridMap Map { get; set; }
 
 		[Net]
-		public List<GridItem> Items { get; set; } = new List<GridItem>();
+		public List<GridItem> Items { get; set; }
 
+		public override void Spawn()
+		{
+			base.Spawn();
+			Tags.Add( "GridSpace" );
+		}
 
 
 		public Vector3 GetWorldPosition()
@@ -33,6 +39,20 @@ namespace Degg.GridSystem
 		}
 
 
+		public List<T> GetItems<T>() where T : GridItem
+		{
+			var items = new List<T>();
+			foreach ( var item in Items )
+			{
+				if ( item is T tItem )
+				{
+					items.Add( tItem );
+				}
+			}
+
+			return items;
+		}
+
 
 		public virtual void ClientTick( float delta, float currentTick )
 		{
@@ -46,6 +66,7 @@ namespace Degg.GridSystem
 
 		public virtual void OnAddToMap()
 		{
+			Items = new List<GridItem>();
 			this.Transmit = TransmitType.Always;
 			UpdatePosition();
 		}
@@ -97,13 +118,14 @@ namespace Degg.GridSystem
             Items.Add(item);
             if (triggerEvents)
             {
-                this.OnItemAdded(item);
+                OnItemAdded(item);
                 item.OnAdded();
             }
         }
 
-        public void RemoveItem(GridItem item, bool triggerEvents = true)
+		public void RemoveItem<T>( T item, bool triggerEvents = true) where T : GridItem
         {
+
             item.Space = null;
             Items.Remove(item);
             if (triggerEvents)
@@ -111,9 +133,19 @@ namespace Degg.GridSystem
                 OnItemRemoved(item);
                 item.OnRemove();
             }
-        }
+			item.Delete();
+		}
 
-        public virtual void OnItemAdded(GridItem item) { }
+		public void RemoveItems<T>( List<T> items, bool triggerEvents = true ) where T : GridItem
+		{
+			AdvLog.Info( items.Count );
+			foreach ( var item in items )
+			{
+				RemoveItem( item, triggerEvents );
+			}
+		}
+
+		public virtual void OnItemAdded(GridItem item) { }
         public virtual void OnItemRemoved(GridItem item) { }
 
         public override string ToString()

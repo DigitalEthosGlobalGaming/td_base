@@ -16,6 +16,9 @@ namespace Sandbox
 		public PlayerMap Map { get; set; }
 
 		[Net]
+		public bool IsBuildingMap { get; set; }
+
+		[Net]
 		public GridSpace CurrentHoveredTile { get; set; }
 		/// <summary>
 		/// Called when the entity is first created 
@@ -62,7 +65,7 @@ namespace Sandbox
 			var cols = 4;
 			float y = index % cols;
 			float x = (float) Math.Floor( (decimal)(index / cols) );
-			return new Vector3( x * Map.GridSize.x  * (Map.XSize + 2), y * Map.GridSize.y * (Map.YSize + 2), 100f );
+			return new Vector3( x * Map.GridSize.x  * (Map.XSize + 2), y * Map.GridSize.y * (Map.YSize + 2), 250f );
 		}
 
 
@@ -122,8 +125,10 @@ namespace Sandbox
 				Position = helper.Position;
 			}
 
+
 			var endPos = EyePosition + (EyeRotation.Forward * 4000);
 			var mytrace = Trace.Ray( EyePosition, endPos );
+			mytrace.WithTag("GridSpace");
 			var tr = mytrace.Run();
 
 			if ( IsServer )
@@ -136,33 +141,10 @@ namespace Sandbox
 				{
 					CurrentHoveredTile = null;
 				}
-
-				if ( CurrentHoveredTile != null )
-				{
-					if ( Input.Pressed( InputButton.Attack1 ) )
-					{
-						var position = CurrentHoveredTile.GridPosition;
-						if ( CurrentHoveredTile is TDGridSpace gridSpace )
-						{
-							gridSpace.Type = gridSpace.Type + 1;
-							if (gridSpace.Type > 2)
-							{
-								gridSpace.Type = 0;
-							}
-							gridSpace.UpdateModel();
-						}
-						else
-						{
-							Map.AddTile<TDGridSpace>( (int)position.x, (int)position.y );
-						}
-					}
-					else if ( Input.Pressed( InputButton.Attack2 ) )
-					{
-						var position = CurrentHoveredTile.GridPosition;
-						Map.AddTile<GridSpace>( (int)position.x, (int)position.y );
-					}
-				}
 			}
+
+			MapEditorSimulate( cl );
+			TurretPlacerSimulate( cl );
 
 			if ( CurrentHoveredTile  != null)
 			{

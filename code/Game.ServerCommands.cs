@@ -50,15 +50,17 @@ namespace Sandbox
 		}
 
 		[ServerCmd( "td.enemy.spawn" )]
-		public static void SpawnEnemy()
+		public static void SpawnEnemy(int amount = 1)
 		{
 			var client = ConsoleSystem.Caller;
 			if ( client?.Pawn is Pawn clientPawn )
 			{
 				if ( clientPawn?.Map is PlayerMap playerMap )
 				{
-					var enemy = Create<EnemyBase>();
-					enemy.Map = playerMap;
+					for ( int i = 0; i < amount; i++ )
+					{
+						playerMap.AddToQueue<EnemyBase>();
+					}					
 				}
 			}
 
