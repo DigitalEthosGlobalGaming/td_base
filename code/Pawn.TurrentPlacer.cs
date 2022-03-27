@@ -38,7 +38,7 @@ namespace Sandbox
 					CurrentHoveredTile.RemoveItems( towers );
 				}
 
-				var newTower = new PelletTower();
+				var newTower = new CannonTower();
 				CurrentHoveredTile.AddItem( newTower );
 			}
 		}

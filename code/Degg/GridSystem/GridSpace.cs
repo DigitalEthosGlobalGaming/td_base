@@ -33,6 +33,11 @@ namespace Degg.GridSystem
 
 			return Map.GetWorldSpace( (int)this.GridPosition.x, (int)this.GridPosition.y );
 		}
+		public Vector3 GetTopWorldPosition()
+		{
+			var position = GetWorldPosition().WithZ( WorldSpaceBounds.Maxs.z );
+			return position;
+		}
 
 		public virtual float GetMovementWeight(GridSpace a, NavPoint n)
 		{

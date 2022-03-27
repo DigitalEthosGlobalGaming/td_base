@@ -46,27 +46,19 @@ namespace TDBase
 			CreateEnemyPath();
 			if ( RoundSystem == null )
 			{
-				RoundSystem = new Timer( ( a, b, c ) =>
-				 {
-					 AdvLog.Info( a, b, c );
-					 RoundStart();
-				 }, 1500 );
+				RoundSystem = new Timer( RoundStart, 15000 );
 			}
 
 			if ( EnemySpawner == null)
 			{
-				EnemySpawner = new Timer((a,b,c) =>
-					{
-						SpawnEnemy();
-					}, 1000);
+				EnemySpawner = new Timer(SpawnEnemy, 1000);
 				EnemySpawner.Start();
 			}
 
 			if ( EnemyEntities == null)
 			{
 				EnemyEntities = new List<EnemyBase>();
-			}
-			
+			}			
 		}
 
 		public void AddToQueue<T>() where T: EnemyBase, new()
@@ -78,7 +70,8 @@ namespace TDBase
 			}
 		}
 
-		public void SpawnEnemy()
+		
+		public void SpawnEnemy(Timer t = null)
 		{
 
 			if ( Enemies != null )
@@ -95,7 +88,7 @@ namespace TDBase
 			
 		}
 
-		public void RoundStart()
+		public void RoundStart( Timer t = null )
 		{
 			Log.Info( "Round Start" );
 		}

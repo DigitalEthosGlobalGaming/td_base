@@ -1,0 +1,14 @@
+C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\tdbase\.vs\output\td_base.xml
+C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\tdbase\.vs\output\td_base.deps.json
+C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\tdbase\.vs\output\td_base.dll
+C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\tdbase\.vs\output\ref\td_base.dll
+C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\tdbase\.vs\output\td_base.pdb
+C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\tdbase\code\obj\Debug\td_base.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\tdbase\code\obj\Debug\td_base.GeneratedMSBuildEditorConfig.editorconfig
+C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\tdbase\code\obj\Debug\td_base.AssemblyInfoInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\tdbase\code\obj\Debug\td_base.AssemblyInfo.cs
+C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\tdbase\code\obj\Debug\td_base.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\tdbase\code\obj\Debug\td_base.csproj.CopyComplete
+C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\tdbase\code\obj\Debug\td_base.dll
+C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\tdbase\code\obj\Debug\ref\td_base.dll
+C:\Program Files (x86)\Steam\steamapps\common\sbox\addons\tdbase\code\obj\Debug\td_base.pdb

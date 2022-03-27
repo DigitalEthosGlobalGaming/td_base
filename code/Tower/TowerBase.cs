@@ -10,10 +10,28 @@ namespace Degg.TDBase.Towers
 {
 	public partial class TowerBase : GridItem
 	{
+		public enum TowerColors
+		{
+			Red,
+			Green,
+			DarkOrange,
+			Orange,
+			Blue,
+			DarkBrown,
+			LightBlue,
+			Yellow,
+			Brown,
+		}
 		public WeaponBase Weapon { get; set; }
-
 		public Vector3 TargetPosition { get; set; } = new Vector3( 0, 0, 0 );
 		public Entity TargetEntity { get; set; }
+
+		public override void Spawn()
+		{
+			base.Spawn();
+			SetupPhysicsFromModel( PhysicsMotionType.Static, false );
+		}
+
 
 		public PlayerMap GetPlayerMap()
 		{
@@ -30,18 +48,21 @@ namespace Degg.TDBase.Towers
 
 			foreach ( var enemy in allEnemies )
 			{
-				var x1 = enemy.Position.x;
-				var y1 = enemy.Position.y;
-				var x2 = Position.x;
-				var y2 = Position.y;
-
-				var y = x2 - x1;
-				var x = y2 - y1;
-
-				var distance = Math.Sqrt( x * x + y * y );
-				if (distance <= range )
+				if ( enemy.EnemyHealth > 0 )
 				{
-					enemies.Enqueue( enemy, (float) distance );
+					var x1 = enemy.Position.x;
+					var y1 = enemy.Position.y;
+					var x2 = Position.x;
+					var y2 = Position.y;
+
+					var y = x2 - x1;
+					var x = y2 - y1;
+
+					var distance = Math.Sqrt( x * x + y * y );
+					if ( distance <= range )
+					{
+						enemies.Enqueue( enemy, (float)distance );
+					}
 				}
 			}
 
@@ -67,6 +88,7 @@ namespace Degg.TDBase.Towers
 		public void Equip(WeaponBase w)
 		{
 			Weapon = w;
+			w.Position = WorldSpaceBounds.Center;
 			Weapon.Equipped(this);
 		}
 

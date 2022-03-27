@@ -1,4 +1,5 @@
 ﻿using Degg.GridSystem;
+using Degg.TDBase.Bullets;
 using Degg.TDBase.Weapons;
 using Sandbox;
 
@@ -6,15 +7,18 @@ using Sandbox;
 namespace TDBase.Enemies
 {
 	[Library]
-	public partial class EnemyBase : ModelEntity
+	public partial class EnemyBase : AnimEntity
 	{
 		public PlayerMap Map { get; set; }
 		public int CurrentPositionIndex { get; set; }
 		public bool IsSetup { get; set; }
 
+		public Rotation TargetRotation { get; set; }
+
 		public float Percentage { get; set; }
 		public float Movespeed { get; set; }
 		public virtual string EnemyName { get; set; }
+		public bool IsAlive { get; set; }
 		public virtual float EnemyHealth {get;set;}
 		public virtual float BaseHealth {get;set;}
 		public virtual int MinCash => 12;
@@ -25,6 +29,7 @@ namespace TDBase.Enemies
 		{
 			base.Spawn();
 			Movespeed = 2f;
+			IsAlive = true;
 		}
 
 		public void Setup()
@@ -82,30 +87,57 @@ namespace TDBase.Enemies
 				return;
 			}
 
-
-
-			Percentage = Percentage + (Movespeed * Time.Delta);
-
-			if (Percentage > 1f)
+			if ( EnemyHealth > 0 )
 			{
-				MoveToNextSpot();
-			}
+				Percentage = Percentage + (Movespeed * Time.Delta);
 
+				if ( Percentage > 1f )
+				{
+					MoveToNextSpot();
+				}
 
+				if ( PreviousSpace != null && NextSpace != null )
+				{
+					var worldPosition = PreviousSpace.GetTopWorldPosition();
+					var nextSpace = NextSpace.GetTopWorldPosition();
 
-			if (PreviousSpace != null && NextSpace != null)
+					Position = worldPosition.LerpTo( nextSpace, Percentage );
+					Rotation = Rotation.LookAt( nextSpace - Position, Vector3.Up );
+				}
+			} else
 			{
-				var worldPosition = PreviousSpace.GetWorldPosition();
-				var nextSpace = NextSpace.GetWorldPosition();
-
-				Position = worldPosition.LerpTo( nextSpace, Percentage );
-				Rotation = Rotation.LookAt( nextSpace - Position, Vector3.Up );
+				Percentage = Percentage + (Movespeed * Time.Delta);
+				Log.Info( Percentage );
+				Rotation = Rotation.Lerp( Rotation, TargetRotation, Percentage );
 			}
 		}
 
-		public void TriggerDeath( WeaponBase weapon )
+		public void TriggerDeath( WeaponBase weapon, BulletBase bullet )
 		{
-			Delete();
+			if ( !IsValid )
+			{
+				return;
+			} 
+			if ( !IsAlive )
+			{
+				return;
+			}
+
+			Percentage = 0f;
+			IsAlive = false;
+			TargetRotation = Rotation.LookAt( Vector3.Random, Vector3.Down );
+			DeleteAsync( Rand.Float( 0.5f, 1.5f ) );
+		}
+
+
+		public void TakeDamage( BulletBase bullet, float amount )
+		{
+			EnemyHealth = EnemyHealth - amount;
+
+			if ( EnemyHealth <= 0 )
+			{
+				TriggerDeath( bullet.Weapon, bullet );
+			}
 		}
 
 		public void TakeDamage(WeaponBase weapon, float amount)
@@ -114,7 +146,7 @@ namespace TDBase.Enemies
 
 			if (EnemyHealth <= 0)
 			{
-				TriggerDeath( weapon );
+				TriggerDeath( weapon, null );
 			}
 		}
 	}

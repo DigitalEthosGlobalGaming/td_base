@@ -1,4 +1,5 @@
-﻿using Degg.TDBase.Towers;
+﻿using Degg.TDBase.Bullets;
+using Degg.TDBase.Towers;
 using Degg.Util;
 using Degg.Utils;
 using Sandbox;
@@ -9,14 +10,12 @@ namespace Degg.TDBase.Weapons
 {
 	public partial class WeaponBase
 	{
-
-
 		public float Range { get; set; }
 		public float Damage { get; set; }
 		public float AttackInterval { get; set; }
 		public TowerBase Tower { get; set; }
 		public Timer AttackTimer { get; set; }
-
+		public Vector3 Position { get; set; }
 		public virtual void Equipped(TowerBase tower)
 		{
 			Tower = tower;
@@ -27,12 +26,28 @@ namespace Degg.TDBase.Weapons
 				AttackTimer = null;
 			}
 
-
-			AttackTimer = new Timer( (a,b,c) =>
-			{
-				Fire();
-			}, AttackInterval );
+			AttackTimer = new Timer( Fire, AttackInterval );
 			AttackTimer.Start();
+		}
+
+		public T CreateBullet<T>(EnemyBase target ) where T : BulletBase, new()
+		{
+			var b = new T();
+			b.TargetEntity = target;
+			return (T) CreateBullet( b );
+		}
+		public T CreateBullet<T>(Vector3 target) where T: BulletBase, new()
+		{
+			var b = new T();
+			b.TargetPosition = target;
+			return (T)CreateBullet( b );
+		}
+		public BulletBase CreateBullet(BulletBase b)
+		{
+			b.StartPosition = Position;
+			b.Position = Position;
+			b.Weapon = this;
+			return b;
 		}
 		public void UnEquipped()
 		{
@@ -42,7 +57,10 @@ namespace Degg.TDBase.Weapons
 			}
 			Tower = null;
 		}
-
+		private void Fire(Timer t)
+		{
+			Fire();
+		}
 		public virtual void Fire()
 		{
 

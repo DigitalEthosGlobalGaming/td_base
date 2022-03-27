@@ -14,15 +14,16 @@ namespace Degg.Utils
 
 	public partial class Timer: ITickable
 	{
-		public float Interval { get; set; }
-		public float NextTick { get; set; }
-		public float LastTick { get; set; }
-		public float CurrentTick { get; set; }
-		public bool IsStarted { get; set; }
-		public Action<float, float, float> Callback { get; set; }
+		public float Interval { get; private set; }
+		public float NextTick { get; private set; }
+		public float LastTick { get; private set; }
+		public float CurrentTick { get; private set; }
+		public float Delta { get; private set; }
+		public bool IsStarted { get; private set; }
+		public Action<Timer> Callback { get; private set; }
 		public TickableCollection ParentCollection { get; set; }
 
-		public Timer( Action<float, float, float> callback, float interval )
+		public Timer( Action<Timer> callback, float interval )
 		{
 			TickableCollection.Global.Add( this );
 			Interval = interval;
@@ -77,8 +78,8 @@ namespace Degg.Utils
 					CurrentTick = Time.Tick;
 					LastTick = NextTick;
 					NextTick = currentTick + (Interval / 1000);
-					var callbackDelta = currentTick - LastTick;
-					Callback( GetPercentage(currentTick), callbackDelta, currentTick );
+					Delta = currentTick - LastTick;
+					Callback(this);
 				}
 			}
 		}
