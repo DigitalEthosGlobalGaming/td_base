@@ -1,5 +1,7 @@
 ﻿
-namespace Degg.GridSystem.GridSpaces
+using Degg.GridSystem.GridSpaces;
+
+namespace Degg.TDBase
 {
 	public partial class TDGridSpace: RoadGridSpace
 	{

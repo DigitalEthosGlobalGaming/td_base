@@ -1,14 +1,6 @@
 ﻿
-using Degg.GridSystem;
-using Degg.Util;
-using Sandbox;
-using Sandbox.UI.Construct;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using TDBase;
-using TDBase.Enemies;
+using CandyDefence.Enemies;
+using Degg.TDBase;
 
 //
 // You don't need to put things in a namespace, but it doesn't hurt.
@@ -41,7 +33,7 @@ namespace Sandbox
 			var client = ConsoleSystem.Caller;
 			if (client?.Pawn is Pawn clientPawn)
 			{
-				if ( clientPawn?.Map is PlayerMap playerMap)
+				if ( clientPawn?.Map is TDPlayerMap playerMap )
 				{
 					var str = playerMap.MapToString();
 					TDCurrent.LogToClient(To.Single(client), str );
@@ -49,22 +41,6 @@ namespace Sandbox
 			}
 		}
 
-		[ServerCmd( "td.enemy.spawn" )]
-		public static void SpawnEnemy(int amount = 1)
-		{
-			var client = ConsoleSystem.Caller;
-			if ( client?.Pawn is Pawn clientPawn )
-			{
-				if ( clientPawn?.Map is PlayerMap playerMap )
-				{
-					for ( int i = 0; i < amount; i++ )
-					{
-						playerMap.AddToQueue<EnemyDemon>();
-					}					
-				}
-			}
-
-		}
 
 		[AdminCmd( "td.bots.spawn", Help = "Spawn my custom bot." )]
 		internal static void SpawnCustomBot()

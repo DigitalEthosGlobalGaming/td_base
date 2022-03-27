@@ -1,36 +1,76 @@
 ﻿using Degg.GridSystem;
-using Degg.GridSystem.GridSpaces;
 using Degg.Util;
 using Degg.Utils;
 using Sandbox;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using TDBase.Enemies;
 
-namespace TDBase
+namespace Degg.TDBase
 {
-	public partial class PlayerMap : GridMap
+	public partial class TDPlayerMap : GridMap
 	{
 
 		[Net]
 		public float Score { get; set;}
-
-		public Queue<Type> Enemies { get; set; }
 		public List<EnemyBase> EnemyEntities { get; set; }
-
-		public Timer EnemySpawner { get; set; }
-		public Timer RoundSystem { get; set; }
 		public List<GridSpace> EnemyPath { get; set; }
+		public List<RoundBase> Rounds { get; set; }
+		public RoundBase CurrentRound { get; set; }
 
-		public void Init(int xAmount, int yAmount)
+		public Timer RoundChecker { get; set; }
+		public int CurrentRoundNumber { get; set; }
+
+		public virtual void Init(int xAmount, int yAmount)
 		{
 			// Initialises the map.
 			// Default tile scale is 10f because our model size is 10f and we want them to be 100f large.
 			TileScale = 10f;
 			Init<GridSpace>( this.Position, new Vector2( 101.0f, 101.0f ), xAmount, yAmount );
-			Enemies = new Queue<Type>();
+			CurrentRoundNumber = -1;
+		}
 
+		public void StartNextRound()
+		{
+			CurrentRoundNumber = CurrentRoundNumber + 1;
+			if ( CurrentRoundNumber <= Rounds.Count)
+			{
+				var previousRound = CurrentRound;
+				if (previousRound != null)
+				{
+					previousRound.Stop();
+				}
+
+				var round = Rounds[CurrentRoundNumber];
+				CurrentRound = round;
+				round.Start();
+			}
+		}
+
+		public RoundBase AddRound<T>() where T: RoundBase, new()
+		{
+			return AddRound( new T() );
+		}
+
+		public List<RoundBase> AddRounds( List<RoundBase> rounds )
+		{
+			foreach ( var round in rounds )
+			{
+				AddRound( round );
+			}
+
+			return rounds;
+		}
+
+		public RoundBase AddRound( RoundBase round)
+		{
+			if ( Rounds  == null)
+			{
+				Rounds = new List<RoundBase>();
+			}
+			round.Map = this;
+			Rounds.Add(round);
+			return round;
 		}
 
 
@@ -44,53 +84,37 @@ namespace TDBase
 		{
 			base.OnSetup();
 			CreateEnemyPath();
-			if ( RoundSystem == null )
+			if ( Rounds  == null)
 			{
-				RoundSystem = new Timer( RoundStart, 15000 );
+				Rounds = new List<RoundBase>();
 			}
-
-			if ( EnemySpawner == null)
-			{
-				EnemySpawner = new Timer(SpawnEnemy, 1000);
-				EnemySpawner.Start();
-			}
-
 			if ( EnemyEntities == null)
 			{
 				EnemyEntities = new List<EnemyBase>();
-			}			
-		}
+			}
 
-		public void AddToQueue<T>() where T: EnemyBase, new()
-		{
-			if ( Enemies != null )
+			if ( RoundChecker == null)
 			{
-				Log.Info( "Added to queue" );
-				Enemies.Enqueue( typeof( T ) );
+				RoundChecker = new Timer(CheckRound, 1000 );
+				RoundChecker.Start();
+			}
+
+
+			if ( CurrentRoundNumber == -1 )
+			{
+				StartNextRound();
 			}
 		}
 
-		
-		public void SpawnEnemy(Timer t = null)
+		public void CheckRound(Timer t)
 		{
-
-			if ( Enemies != null )
+			if ( CurrentRound != null )
 			{
-				
-				if ( Enemies.TryDequeue( out var myEnemy ) )
+				if (CurrentRound.HasRoundEnded())
 				{
-					var enemy = Library.Create<EnemyBase>( myEnemy );
-					enemy.Map = this;
-					enemy.Setup();
-					EnemyEntities.Add( enemy );
+					StartNextRound();
 				}
 			}
-			
-		}
-
-		public void RoundStart( Timer t = null )
-		{
-			Log.Info( "Round Start" );
 		}
 
 		public void CreateEnemyPath()
@@ -133,16 +157,25 @@ namespace TDBase
 		protected override void OnDestroy()
 		{
 			base.OnDestroy();
-			if (RoundSystem != null)
-			{
-				RoundSystem.Delete();
-			}
+
 			if (EnemyEntities != null)
 			{
 				foreach ( var item in EnemyEntities )
 				{
 					item.Delete();
 				}
+			}
+			if ( Rounds != null )
+			{
+				foreach ( var round in Rounds )
+				{
+					round.Delete();
+				}
+			}
+
+			if ( RoundChecker != null)
+			{
+				RoundChecker.Delete();
 			}
 		}
 
@@ -170,6 +203,11 @@ namespace TDBase
 			}
 
 			OnSetup();
+		}
+
+		public void AddRound()
+		{
+
 		}
 
 		public virtual string MapToString()

@@ -1,7 +1,8 @@
 ﻿
-using Degg.TDBase.Bullets;
+using CandyDefence.Bullets;
+using Degg.TDBase;
 
-namespace Degg.TDBase.Weapons
+namespace CandyDefence.Weapons
 {
 	public partial class CannonWeapon : WeaponBase
 	{

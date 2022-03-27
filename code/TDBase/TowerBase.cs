@@ -1,12 +1,9 @@
 ﻿using Degg.GridSystem;
-using Degg.TDBase.Weapons;
 using Sandbox;
 using System;
 using System.Collections.Generic;
-using TDBase;
-using TDBase.Enemies;
 
-namespace Degg.TDBase.Towers
+namespace Degg.TDBase
 {
 	public partial class TowerBase : GridItem
 	{
@@ -33,11 +30,11 @@ namespace Degg.TDBase.Towers
 		}
 
 
-		public PlayerMap GetPlayerMap()
+		public TDPlayerMap GetPlayerMap()
 		{
-			if ( Space?.Map is PlayerMap )
+			if ( Space?.Map is TDPlayerMap )
 			{
-				return (PlayerMap) Space?.Map;
+				return (TDPlayerMap) Space?.Map;
 			}
 			return null;
 		}

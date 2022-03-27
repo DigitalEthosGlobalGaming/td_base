@@ -1,9 +1,7 @@
-﻿using Degg.TDBase.Weapons;
-using Degg.Util;
+﻿
 using Sandbox;
-using TDBase.Enemies;
 
-namespace Degg.TDBase.Bullets
+namespace Degg.TDBase
 {
 	public partial class BulletBase: ModelEntity
 	{

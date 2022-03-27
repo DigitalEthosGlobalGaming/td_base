@@ -1,15 +1,4 @@
-﻿
-using Degg.GridSystem;
-using Degg.Util;
-using Sandbox;
-using Sandbox.UI.Construct;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using TDBase;
-
-//
+﻿//
 // You don't need to put things in a namespace, but it doesn't hurt.
 //
 namespace Sandbox

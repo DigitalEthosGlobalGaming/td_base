@@ -1,12 +1,8 @@
-﻿using Degg.TDBase.Bullets;
-using Degg.TDBase.Towers;
-using Degg.Util;
+﻿
 using Degg.Utils;
-using Sandbox;
 using System.Collections.Generic;
-using TDBase.Enemies;
 
-namespace Degg.TDBase.Weapons
+namespace Degg.TDBase
 {
 	public partial class WeaponBase
 	{

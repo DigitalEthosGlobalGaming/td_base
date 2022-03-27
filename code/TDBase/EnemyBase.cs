@@ -1,15 +1,13 @@
 ﻿using Degg.GridSystem;
-using Degg.TDBase.Bullets;
-using Degg.TDBase.Weapons;
 using Sandbox;
 
-
-namespace TDBase.Enemies
+namespace Degg.TDBase
 {
 	[Library]
 	public partial class EnemyBase : AnimEntity
 	{
-		public PlayerMap Map { get; set; }
+		public TDPlayerMap Map { get; set; }
+		public RoundBase Round { get; set; }
 		public int CurrentPositionIndex { get; set; }
 		public bool IsSetup { get; set; }
 
@@ -107,7 +105,6 @@ namespace TDBase.Enemies
 			} else
 			{
 				Percentage = Percentage + (Movespeed * Time.Delta);
-				Log.Info( Percentage );
 				Rotation = Rotation.Lerp( Rotation, TargetRotation, Percentage );
 			}
 		}

@@ -1,6 +1,5 @@
-﻿using Degg.GridSystem;
-using Degg.GridSystem.GridSpaces;
-using Degg.TDBase.Towers;
+﻿using CandyDefence.Towers;
+using Degg.TDBase;
 
 namespace Sandbox
 {

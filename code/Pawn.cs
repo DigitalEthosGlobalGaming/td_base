@@ -1,19 +1,13 @@
 ﻿using Degg.GridSystem;
-using Degg.GridSystem.GridSpaces;
-using Degg.Util;
-using Sandbox;
-using Sandbox.Degg;
+using Degg.TDBase;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using TDBase;
 
 namespace Sandbox
 {
 	public partial class Pawn : AnimEntity
 	{
 		[Net]
-		public PlayerMap Map { get; set; }
+		public TDPlayerMap Map { get; set; }
 
 		[Net]
 		public bool IsBuildingMap { get; set; }
@@ -41,10 +35,8 @@ namespace Sandbox
 				MyGame.AddActivePawn( this );
 			}
 
-			Log.Info( "Spawn!" );
 
-
-			SetupMap();
+			SetupMap<CandyDefenceMap>();
 		}
 
 		protected override void OnDestroy()
@@ -69,7 +61,7 @@ namespace Sandbox
 		}
 
 
-		public void SetupMap()
+		public T SetupMap<T>() where T: TDPlayerMap, new()
 		{
 			if (Map != null)
 			{
@@ -79,7 +71,7 @@ namespace Sandbox
 
 			if ( Map == null )
 			{
-				var playerMap = new PlayerMap();
+				var playerMap = new T();
 				playerMap.Owner = this;
 				Map = playerMap;
 				playerMap.OnSetupAction = () =>
@@ -93,6 +85,9 @@ namespace Sandbox
 				var size = playerMap.GetMapSize() / 1.75f;
 				Position = playerMap.Position + (Vector3.Up * 500f) + (Vector3.Forward * size.x);
 			}
+
+
+			return (T)Map;
 		}
 
 		/// <summary>

@@ -1,7 +1,7 @@
-﻿using Degg.TDBase.Weapons;
-using Sandbox;
+﻿using CandyDefence.Weapons;
+using Degg.TDBase;
 
-namespace Degg.TDBase.Towers
+namespace CandyDefence.Towers
 {
 	public partial class CannonTower: TowerBase
 	{		
@@ -16,6 +16,5 @@ namespace Degg.TDBase.Towers
 			SetBodyGroup( "top", 0 );
 			Equip<CannonWeapon>();
 		}
-
 	}
 }

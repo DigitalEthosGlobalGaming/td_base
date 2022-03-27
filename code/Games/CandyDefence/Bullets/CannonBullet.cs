@@ -1,7 +1,5 @@
-﻿using Sandbox;
-using TDBase.Enemies;
-
-namespace Degg.TDBase.Bullets
+﻿using Degg.TDBase;
+namespace CandyDefence.Bullets
 {
 	public partial class CannonBullet: BulletBase
 	{
@@ -15,7 +13,7 @@ namespace Degg.TDBase.Bullets
 		public override void Explode()
 		{
 			base.Explode();
-			if (TargetEntity != null)
+			if (TargetEntity != null && TargetEntity.IsValid)
 			{
 				TargetEntity.TakeDamage( Weapon, Weapon.Damage );
 			}

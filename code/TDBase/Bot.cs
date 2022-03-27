@@ -1,9 +1,6 @@
 ﻿using Sandbox;
-using System;
-using System.Linq;
-using TDBase;
 
-namespace Sandbox
+namespace Degg.TDBase
 {
 	public partial class TDBotBase : Bot
 	{

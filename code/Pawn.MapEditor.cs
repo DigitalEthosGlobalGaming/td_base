@@ -1,6 +1,5 @@
 ﻿using Degg.GridSystem;
-using Degg.GridSystem.GridSpaces;
-
+using Degg.TDBase;
 
 namespace Sandbox
 {
