@@ -8,13 +8,14 @@ namespace CandyDefence.Enemies
 	{
 		public override string EnemyName => "Demon Large";
 		public override float BaseHealth => 10f;
-		public override int MinCash => 1;
-		public override int MaxCash => 1;
+		public override int MinCash => 2;
+		public override int MaxCash => 2;
 
-		public override void Spawn()
+		public override void Setup()
 		{
-			base.Spawn();
+			base.Setup();
 			Movespeed = 1f;
+			Scale = 0.5f;
 		}
 	}
 }

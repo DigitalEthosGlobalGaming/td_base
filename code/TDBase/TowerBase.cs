@@ -23,6 +23,8 @@ namespace Degg.TDBase
 		public Vector3 TargetPosition { get; set; } = new Vector3( 0, 0, 0 );
 		public Entity TargetEntity { get; set; }
 
+		public bool IsGhost { get; set; }
+
 		public override void Spawn()
 		{
 			base.Spawn();
@@ -41,6 +43,10 @@ namespace Degg.TDBase
 		public PriorityQueue<EnemyBase, float> GetEnemiesInRange(float range)
 		{
 			var enemies = new PriorityQueue<EnemyBase, float>();
+			if ( IsGhost )
+			{
+				return enemies;
+			}
 			var allEnemies = GetPlayerMap().EnemyEntities;
 
 			foreach ( var enemy in allEnemies )
@@ -98,11 +104,19 @@ namespace Degg.TDBase
 		[Event.Tick.Server]
 		public void Tick()
 		{
-			if (!Space.Map.IsValid())
+			if (IsGhost)
 			{
-				Delete();
+				Log.Info( "Tick" );
 				return;
+			} else
+			{
+				if ( !Space.Map.IsValid() )
+				{
+					Delete();
+					return;
+				}
 			}
+			
 			var target = TargetPosition.WithZ(Position.z);
 
 			if (TargetEntity != null && TargetEntity.IsValid) 

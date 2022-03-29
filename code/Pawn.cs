@@ -1,5 +1,6 @@
 ﻿using Degg.GridSystem;
 using Degg.TDBase;
+using Degg.TDBase.Tools;
 using System;
 
 namespace Sandbox
@@ -12,8 +13,20 @@ namespace Sandbox
 		[Net]
 		public bool IsBuildingMap { get; set; }
 
-		[Net]
+		[Net, Change]
 		public GridSpace CurrentHoveredTile { get; set; }
+
+		public void OnCurrentHoveredTileChanged( GridSpace oldValue, GridSpace newValue )
+		{
+			if (Tool != null)
+			{
+				Tool.OnTileHoveredOff( oldValue );
+				Tool.OnTileHovered( newValue );
+			}
+		}
+
+		[Net]
+		public ToolBase Tool { get; set; }
 		/// <summary>
 		/// Called when the entity is first created 
 		/// </summary>
@@ -37,6 +50,21 @@ namespace Sandbox
 
 
 			SetupMap<CandyDefenceMap>();
+			IsBuildingMap = false;
+		}
+
+		public ToolBase SetTool<T>() where T : ToolBase, new()
+		{
+			if (Tool != null) {
+				Tool.Delete();
+			}
+
+			Tool = null;
+			var t = new T();
+			t.Owner = this;
+
+			Tool = t;
+			return t;
 		}
 
 		protected override void OnDestroy()
@@ -48,7 +76,13 @@ namespace Sandbox
 				{
 					Map.Delete();
 				}
+
+				if ( Tool != null )
+				{
+					Tool.Delete();
+				}
 			}
+
 		}
 
 		public Vector3 GetMapPosition()
@@ -87,15 +121,16 @@ namespace Sandbox
 			}
 
 
+			SetTool<TowerPlacerTool>();
+
+
 			return (T)Map;
 		}
 
-		/// <summary>
-		/// Called every tick, clientside and serverside.
-		/// </summary>
 		public override void Simulate( Client cl )
 		{
 			base.Simulate( cl );
+
 
 
 			// Update rotation every frame, to keep things smooth
@@ -131,21 +166,37 @@ namespace Sandbox
 				if ( tr.Entity != null && tr.Entity is GridSpace )
 				{
 					GridSpace ent = (GridSpace)tr.Entity;
-					CurrentHoveredTile = ent;
+					SetCurrentHoveredTile( ent );
 				} else
 				{
-					CurrentHoveredTile = null;
+					SetCurrentHoveredTile(null);
 				}
 			}
 
 			MapEditorSimulate( cl );
-			TurretPlacerSimulate( cl );
 
-			if ( CurrentHoveredTile  != null)
+			if (Tool != null)
 			{
-				DebugOverlay.Sphere( CurrentHoveredTile.Position, 100f, Color.Red );
+				Tool.Simulate( cl );
 			}
 		}
+
+		public void SetCurrentHoveredTile(GridSpace tile)
+		{
+			var previous = CurrentHoveredTile;
+			CurrentHoveredTile = tile;
+
+			if ( CurrentHoveredTile != previous)
+			{
+				if (Tool != null)
+				{
+
+					Tool.OnTileHoveredOff( previous );
+					Tool.OnTileHovered( CurrentHoveredTile );
+				}
+			}
+		}
+
 
 		/// <summary>
 		/// Called every frame on the client
@@ -153,6 +204,11 @@ namespace Sandbox
 		public override void FrameSimulate( Client cl )
 		{
 			base.FrameSimulate( cl );
+
+			if ( Tool != null )
+			{
+				Tool.FrameSimulate( cl );
+			}
 		}
 	}
 }

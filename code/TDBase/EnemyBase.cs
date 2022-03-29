@@ -30,7 +30,7 @@ namespace Degg.TDBase
 			IsAlive = true;
 		}
 
-		public void Setup()
+		public virtual void Setup()
 		{
 			if ( IsSetup )
 			{
@@ -99,14 +99,23 @@ namespace Degg.TDBase
 					var worldPosition = PreviousSpace.GetTopWorldPosition();
 					var nextSpace = NextSpace.GetTopWorldPosition();
 
-					Position = worldPosition.LerpTo( nextSpace, Percentage );
-					Rotation = Rotation.LookAt( nextSpace - Position, Vector3.Up );
+					Position = GetMovementPosition( worldPosition, nextSpace, Percentage );
+					Rotation = GetMovementRotation( worldPosition, nextSpace, Percentage );
 				}
 			} else
 			{
 				Percentage = Percentage + (Movespeed * Time.Delta);
 				Rotation = Rotation.Lerp( Rotation, TargetRotation, Percentage );
 			}
+		}
+
+		public virtual Vector3 GetMovementPosition(Vector3 previousPosition, Vector3 nextPosition, float percentage)
+		{
+			return previousPosition.LerpTo( nextPosition, Percentage );
+		}
+		public virtual Rotation GetMovementRotation( Vector3 previousPosition, Vector3 nextPosition, float percentage )
+		{			
+			return Rotation.LookAt( nextPosition - previousPosition, Vector3.Up );
 		}
 
 		public void TriggerDeath( WeaponBase weapon, BulletBase bullet )

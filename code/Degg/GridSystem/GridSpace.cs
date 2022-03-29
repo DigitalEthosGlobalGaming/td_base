@@ -20,6 +20,7 @@ namespace Degg.GridSystem
 		public override void Spawn()
 		{
 			base.Spawn();
+			Transmit = TransmitType.Always;
 			Tags.Add( "GridSpace" );
 		}
 

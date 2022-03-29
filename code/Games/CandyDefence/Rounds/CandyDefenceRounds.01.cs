@@ -11,7 +11,7 @@ namespace CandyDefence.Rounds
 			round.SpawnInterval = 1000;
 			for ( int i = 0; i < 10; i++ )
 			{
-				round.AddToQueue<EnemyDemon>();
+				round.AddToQueue<EnemyChicken>();
 			}
 
 			return round;

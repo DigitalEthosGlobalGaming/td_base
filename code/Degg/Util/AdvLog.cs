@@ -62,7 +62,12 @@ namespace Degg.Util
 			string message = "";
 			foreach ( object arg in args )
 			{
-				message += arg.ToString();
+				var str = "null";
+				if ( arg != null)
+				{
+					str = arg.ToString();
+				}
+				message += str;
 				message += "\t";
 			}
 

@@ -32,7 +32,10 @@ namespace Degg.GridSystem
 			{
 				if ( Space != null )
 				{
-					Scale = Space.Map.Scale;
+					if ( Space.Map != null )
+					{
+						Scale = Space.Map.Scale;
+					}
 					UpdatePosition();
 					OnSetup();
 				}

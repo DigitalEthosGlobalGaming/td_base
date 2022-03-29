@@ -1,8 +1,10 @@
 ﻿using CandyDefence.Weapons;
 using Degg.TDBase;
+using Sandbox;
 
 namespace CandyDefence.Towers
 {
+	[Library]
 	public partial class CannonTower: TowerBase
 	{		
 		public override void OnSetup()

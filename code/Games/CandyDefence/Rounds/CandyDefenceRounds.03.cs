@@ -8,10 +8,10 @@ namespace CandyDefence.Rounds
 		public static RoundBase Round3()
 		{
 			var round = new RoundBase();
-			round.SpawnInterval = 500;
-			for ( int i = 0; i < 20; i++ )
+			round.SpawnInterval = 2500;
+			for ( int i = 0; i < 5; i++ )
 			{
-				round.AddToQueue<EnemyDemon>();
+				round.AddToQueue<EnemyDemonLarge>();
 			}
 
 			return round;
