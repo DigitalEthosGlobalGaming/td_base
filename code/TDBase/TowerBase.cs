@@ -22,7 +22,7 @@ namespace Degg.TDBase
 		public WeaponBase Weapon { get; set; }
 		public Vector3 TargetPosition { get; set; } = new Vector3( 0, 0, 0 );
 		public Entity TargetEntity { get; set; }
-
+		public virtual float Cost { get; set; } = 0f;
 		public bool IsGhost { get; set; }
 
 		public override void Spawn()

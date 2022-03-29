@@ -1,6 +1,8 @@
 ﻿
 using Degg.GridSystem;
+using Degg.Util;
 using Sandbox;
+using Sandbox.UI;
 
 namespace Degg.TDBase.Tools
 {
@@ -13,6 +15,10 @@ namespace Degg.TDBase.Tools
 		[Net, Predicted]
 		public TimeSince TimeSinceSecondaryAttack { get; set; }
 
+		public ToolUi HudPanel { get; protected set; }
+
+		public bool IsUiSetup { get; set; } = false;
+
 		public virtual float PrimaryRate => 10.0f;
 		public virtual float SecondaryRate => 10.0f;
 
@@ -22,7 +28,21 @@ namespace Degg.TDBase.Tools
 			Transmit = TransmitType.Owner;
 		}
 
-		public virtual void OnTileHovered( GridSpace space)
+		[Event.Hotload]
+		public void OnHotload()
+		{
+			IsUiSetup = false;
+		}
+
+
+		protected override void OnDestroy()
+		{
+			base.OnDestroy();
+			DestroyHudElements();
+		}
+
+
+		public virtual void OnTileHovered( GridSpace space )
 		{
 
 		}
@@ -32,10 +52,10 @@ namespace Degg.TDBase.Tools
 
 		}
 
-		public T GetHoveredTile<T>() where T: GridSpace
+		public T GetHoveredTile<T>() where T : GridSpace
 		{
 			var t = GetHoveredTile();
-			if (t is T)
+			if ( t is T )
 			{
 				return (T)t;
 			}
@@ -44,7 +64,7 @@ namespace Degg.TDBase.Tools
 
 		public GridSpace GetHoveredTile()
 		{
-			if (Owner != null && Owner.IsValid && Owner is Pawn)
+			if ( Owner != null && Owner.IsValid && Owner is Pawn )
 			{
 				return ((Pawn)Owner).CurrentHoveredTile;
 			}
@@ -53,7 +73,6 @@ namespace Degg.TDBase.Tools
 
 		public override void Simulate( Client player )
 		{
-
 			if ( !Owner.IsValid() )
 			{
 				return;
@@ -77,9 +96,14 @@ namespace Degg.TDBase.Tools
 				}
 			}
 		}
-
+		
 		public override void FrameSimulate( Client player )
 		{
+			if (!IsUiSetup)
+			{
+				CreateHudElements();
+				IsUiSetup = true;
+			}
 		}
 
 		public virtual bool CanPrimaryAttack()
@@ -110,6 +134,34 @@ namespace Degg.TDBase.Tools
 		public virtual void AttackSecondary()
 		{
 
+		}
+
+		public virtual T SetHudPanel<T>() where T: Panel, new()
+		{
+			if ( IsServer )
+			{
+				return null;
+			}
+			return HudPanel.SetHudPanel<T>();
+		}
+
+		public virtual void CreateHudElements()
+		{
+			if ( IsServer )
+			{
+				return;
+			}
+			DestroyHudElements();
+			HudPanel = new ToolUi();
+		}
+
+		public virtual void DestroyHudElements()
+		{
+			if ( IsServer )
+			{
+				return;
+			}
+			HudPanel?.Delete();
 		}
 	}
 }

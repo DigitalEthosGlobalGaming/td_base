@@ -14,14 +14,30 @@ namespace Degg.TDBase
 
 		[Net]
 		public float Score { get; set;}
+
+		public Pawn OwnerPawn {
+			get {
+				if ( Owner is Pawn )
+				{
+					return (Pawn)Owner;
+				}
+				else
+				{
+					return null;
+				} }
+		}
 		public List<EnemyBase> EnemyEntities { get; set; }
 		public List<GridSpace> EnemyPath { get; set; }
 		public List<RoundBase> Rounds { get; set; }
 		public RoundBase CurrentRound { get; set; }
-
 		public Timer RoundChecker { get; set; }
 		public int CurrentRoundNumber { get; set; }
 
+
+		public virtual void Init()
+		{
+			Init( 20, 20 );
+		}
 		public virtual void Init(int xAmount, int yAmount)
 		{
 			// Initialises the map.
@@ -47,6 +63,7 @@ namespace Degg.TDBase
 				round.Start();
 			}
 		}
+
 
 		public RoundBase AddRound<T>() where T: RoundBase, new()
 		{

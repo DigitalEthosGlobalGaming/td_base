@@ -21,6 +21,7 @@ namespace Degg.TDBase.Weapons
 				Tower.TargetEntity = target;
 				target.TakeDamage( this, Damage );
 			}
+			// On fire make particles of some sort of lollies.
 		}
 	}
 }

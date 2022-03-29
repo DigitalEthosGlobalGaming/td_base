@@ -1,21 +1,20 @@
 ﻿
 using CandyDefence.Rounds;
+using CandyDefence.Tools;
+using Degg.TDBase;
+using Degg.Util;
 
-namespace Degg.TDBase
+namespace CandyDefence
 {
 	public partial class CandyDefenceMap: TDPlayerMap
 	{
 
-		public void Init()
+		public override void Init()
 		{
 			Init( 20, 20 );
+			AddRounds(CandyDefenceRounds.Rounds());
+			OwnerPawn?.SetTool<PlayerTool>();
 		}
-		public override void Init( int xAmount, int yAmount )
-		{
-			base.Init( xAmount, yAmount );
-			AddRounds( CandyDefenceRounds.Rounds() );
-		}
-
 	}
 
 }

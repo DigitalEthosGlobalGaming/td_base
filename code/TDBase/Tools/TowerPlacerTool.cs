@@ -9,7 +9,7 @@ namespace Degg.TDBase.Tools
 
 		public const float GhostFloatHeight = 50f;
 
-		public string CurrentTower { get; set; } = "CannonTower";
+		public string CurrentTower { get; set; } = "SniperTower";
 
 		public TowerBase Ghost {get;set;}
 

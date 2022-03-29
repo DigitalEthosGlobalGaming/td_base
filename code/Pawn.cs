@@ -1,4 +1,5 @@
-﻿using Degg.GridSystem;
+﻿using CandyDefence;
+using Degg.GridSystem;
 using Degg.TDBase;
 using Degg.TDBase.Tools;
 using System;
@@ -53,7 +54,7 @@ namespace Sandbox
 			IsBuildingMap = false;
 		}
 
-		public ToolBase SetTool<T>() where T : ToolBase, new()
+		public T SetTool<T>() where T : ToolBase, new()
 		{
 			if (Tool != null) {
 				Tool.Delete();
@@ -62,7 +63,6 @@ namespace Sandbox
 			Tool = null;
 			var t = new T();
 			t.Owner = this;
-
 			Tool = t;
 			return t;
 		}
@@ -112,17 +112,13 @@ namespace Sandbox
 				{
 					Map.LoadFromString( BaseMaps.Map1 );
 				};
-				Map.Init( 20, 20 );
+				Map.Init();
 
 				playerMap.Position = GetMapPosition();
 
 				var size = playerMap.GetMapSize() / 1.75f;
 				Position = playerMap.Position + (Vector3.Up * 500f) + (Vector3.Forward * size.x);
 			}
-
-
-			SetTool<TowerPlacerTool>();
-
 
 			return (T)Map;
 		}

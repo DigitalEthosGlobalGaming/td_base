@@ -1,0 +1,49 @@
+﻿@import "/Degg/Ui/Styles/variables.scss";
+
+.main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.score-container {
+    color: $fc-primary;
+    padding: 20px;
+    text-align: center;
+    border-bottom-left-radius: $border-radius;
+    background-color: rgba($c-primary-500,0.85);
+    color: $fc-primary;
+    font-size: $font-size-large;
+    font-weight: bold;
+}
+
+.top-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.current-item-container {
+    padding: 8px;
+    background-color: rgba($c-primary-500,0.85);
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+    color: $fc-primary;
+    font-weight: bold;
+    font-size: $font-size-large;
+}
+
+.hidden {
+    display: none;
+}

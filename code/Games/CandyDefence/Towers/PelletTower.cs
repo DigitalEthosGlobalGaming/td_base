@@ -4,7 +4,9 @@ using Sandbox;
 namespace Degg.TDBase.Towers
 {
 	public partial class PelletTower: TowerBase
-	{		
+	{
+
+		public override float Cost { get; set; } = 15f;
 		public override void OnSetup()
 		{
 			base.OnSetup();
