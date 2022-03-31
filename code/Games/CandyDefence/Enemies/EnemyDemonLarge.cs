@@ -17,5 +17,10 @@ namespace CandyDefence.Enemies
 			Movespeed = 1f;
 			Scale = 0.5f;
 		}
+
+		public override void Tick()
+		{
+			base.Tick();
+		}
 	}
 }

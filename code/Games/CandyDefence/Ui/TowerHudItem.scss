@@ -1,0 +1,29 @@
+﻿@import "/Degg/Ui/Styles/variables.scss";
+
+.tower-hud-item {
+    z-index: 1;
+    font-family: $font-base;
+    font-size: 16px;
+    margin-left: 8px;
+    margin-right: 8px;
+    padding: 10px;
+    color: rgba(255,255,255,0.9);
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+    background-color: rgba(0,0,0,0.5);
+    border-color: rgba(0,0,0,0.5);
+    border-width: 1px;
+    flex-direction: column;
+}
+
+
+.selected.tower-hud-item {
+    background-color: rgba(0,0,0,0.0);
+    border-bottom-color: rgba(255,255,255,0.5);
+    border-width: 1px;
+}
+
+ .tower-hud-price {
+    color: yellow;
+    padding-left: 8px;
+}

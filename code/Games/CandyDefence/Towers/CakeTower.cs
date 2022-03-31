@@ -13,9 +13,9 @@ namespace CandyDefence.Towers
 			base.OnSetup();
 			SetModel( "models/towers/tower.vmdl" );
 			SetupPhysicsFromModel(Sandbox.PhysicsMotionType.Static);
-			SetMaterialGroup((int) TowerColors.Red);
+			SetMaterialGroup((int) TowerColors.Orange);
 			SetBodyGroup( "bottom", 0 );
-			SetBodyGroup( "middle", 1 );
+			SetBodyGroup( "middle", 0 );
 			SetBodyGroup( "top", 0 );
 			Equip<CannonWeapon>();
 			// This weapon will make a cake fall from the sky and land on the spot doing massive damage.

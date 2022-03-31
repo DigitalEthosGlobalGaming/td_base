@@ -12,10 +12,10 @@ namespace Degg.TDBase.Towers
 			base.OnSetup();
 			SetModel( "models/towers/tower.vmdl" );
 			SetupPhysicsFromModel(Sandbox.PhysicsMotionType.Static);
-			SetMaterialGroup( Rand.Int(1,6 ));
-			SetBodyGroup( "bottom", Rand.Int( 1, 3 ) );
-			SetBodyGroup( "middle", Rand.Int( 1, 3 ) );
-			SetBodyGroup( "top", Rand.Int( 1, 3 ) );
+			SetMaterialGroup( (int)TowerColors.LightBlue);
+			SetBodyGroup( "bottom", 0 );
+			SetBodyGroup( "middle", 1 );
+			SetBodyGroup( "top", 2 );
 			Equip<PelletWeapon>();
 		}
 

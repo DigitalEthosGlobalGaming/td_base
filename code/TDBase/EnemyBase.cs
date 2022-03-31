@@ -72,7 +72,7 @@ namespace Degg.TDBase
 		}
 
 		[Event.Tick]
-		public void Tick()
+		public virtual void Tick()
 		{
 			if ( !IsSetup)
 			{

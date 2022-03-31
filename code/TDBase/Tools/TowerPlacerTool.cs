@@ -1,16 +1,19 @@
 ﻿using Degg.GridSystem;
-using Degg.Util;
 using Sandbox;
 
 namespace Degg.TDBase.Tools
 {
 	public partial class TowerPlacerTool : ToolBase
 	{
-
 		public const float GhostFloatHeight = 50f;
 
-		public string CurrentTower { get; set; } = "SniperTower";
+		[Net, Change]
+		public string CurrentTower { get; set; }
 
+		public void OnCurrentTowerChanged(string oldVal, string newVal)
+		{
+			SpawnGhost();
+		}
 		public TowerBase Ghost {get;set;}
 
 		public void SpawnGhost()
@@ -88,7 +91,7 @@ namespace Degg.TDBase.Tools
 			{
 				return;
 			}
-			
+
 			var tile = GetHoveredTile();
 			if ( tile != null && !(tile is TDGridSpace) )
 			{
@@ -98,6 +101,26 @@ namespace Degg.TDBase.Tools
 					tile.RemoveItems( towers );
 				}
 
+			}
+		}
+
+
+		public void SetCurrentTower( string tower )
+		{
+			CurrentTower = tower;
+		}
+
+		[ServerCmd]
+		public static void SetCurrentTowerCmd(string tower)
+		{
+			var clientPawn = ConsoleSystem.Caller.Pawn;
+
+			if ( clientPawn  is Pawn pawn)
+			{
+				if (pawn.Tool != null && pawn.Tool is TowerPlacerTool tool)
+				{
+						tool.SetCurrentTower( tower );
+				}
 			}
 		}
 

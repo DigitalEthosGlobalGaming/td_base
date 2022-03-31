@@ -66,6 +66,9 @@ namespace Degg.Util
 				if ( arg != null)
 				{
 					str = arg.ToString();
+				} else
+				{
+					str = "[NULL]";
 				}
 				message += str;
 				message += "\t";
