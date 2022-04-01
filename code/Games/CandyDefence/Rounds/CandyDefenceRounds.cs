@@ -10,9 +10,6 @@ namespace CandyDefence.Rounds
 			var list = new List<RoundBase>();
 
 			list.Add( Round0() );
-
-			list.Add( Round3() );
-
 			list.Add( Round1() );
 			list.Add( Round2() );
 			list.Add( Round3() );

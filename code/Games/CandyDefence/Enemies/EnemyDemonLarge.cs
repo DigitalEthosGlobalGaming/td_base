@@ -15,6 +15,7 @@ namespace CandyDefence.Enemies
 		{
 			base.Setup();
 			Movespeed = 1f;
+			Rewards.Add( "Candies", 10 );
 			Scale = 0.5f;
 		}
 

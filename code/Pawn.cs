@@ -43,7 +43,9 @@ namespace Sandbox
 			EnableDrawing = true;
 			EnableHideInFirstPerson = true;
 			EnableShadowInFirstPerson = true;
-			
+			Currencies = new CurrencyManager();
+
+
 			if (IsServer)
 			{
 				MyGame.AddActivePawn( this );
@@ -175,6 +177,26 @@ namespace Sandbox
 			{
 				Tool.Simulate( cl );
 			}
+		}
+
+		public T GetMap<T>() where T: TDPlayerMap
+		{
+			if (Map != null && Map is T map )
+			{
+				return (T)map;
+			}
+			return null;
+		}
+
+		public void OwnerPlaySound(string name)
+		{
+			ClientPlaySound( To.Single( Client ), name );
+		}
+
+		[ClientRpc]
+		public void ClientPlaySound(string name)
+		{
+			PlaySound( name );
 		}
 
 		public void SetCurrentHoveredTile(GridSpace tile)

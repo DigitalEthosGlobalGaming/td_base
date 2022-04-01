@@ -1,5 +1,6 @@
 ﻿
 using Degg.Utils;
+using Sandbox;
 using System.Collections.Generic;
 
 namespace Degg.TDBase
@@ -12,6 +13,7 @@ namespace Degg.TDBase
 		public TowerBase Tower { get; set; }
 		public Timer AttackTimer { get; set; }
 		public Vector3 Position { get; set; }
+
 		public virtual void Equipped(TowerBase tower)
 		{
 			Tower = tower;
@@ -24,6 +26,15 @@ namespace Degg.TDBase
 
 			AttackTimer = new Timer( Fire, AttackInterval );
 			AttackTimer.Start();
+		}
+
+		public Pawn GetPawn()
+		{
+			if (Tower?.GetPlayerMap()?.OwnerPawn is Pawn p)
+			{
+				return p;
+			}
+			return null;
 		}
 
 		public T CreateBullet<T>(EnemyBase target ) where T : BulletBase, new()

@@ -1,4 +1,5 @@
-﻿using Degg.GridSystem;
+﻿using CandyDefence;
+using Degg.GridSystem;
 using Sandbox;
 
 namespace Degg.TDBase.Tools
@@ -124,18 +125,56 @@ namespace Degg.TDBase.Tools
 			}
 		}
 
-		public void PlaceTower()
+		public TowerStoreItem GetStoreItemForTower(string name)
+		{
+			return GetOwnerStore().GetItems<TowerStoreItem>().Find( ( item ) =>
+			 {
+				 return item.ClassName == name;
+			 });
+		}
+
+		public StoreBase GetOwnerStore()
+		{
+			if ( Owner is Pawn pawn )
+			{
+				var map = pawn.GetMap<CandyDefenceMap>();
+				if ( map != null )
+				{
+					var store = map.Store;
+
+						return store;
+				}
+			}
+			return null;
+		}
+
+		public Pawn OwnerPawn()
+		{
+			if ( Owner is Pawn pawn )
+			{
+				return pawn;
+			}
+			return null;
+		}
+
+		public virtual void PlaceTower()
 		{
 			if ( IsClient )
 			{
 				return;
 			}
-			var tile = GetHoveredTile();
-			if ( CanPlaceOnTile(tile)) { 
-				RemoveTower();
-
-				var tower = Library.Create<TowerBase>( CurrentTower );
-				tile.AddItem( tower );
+			var pawn = OwnerPawn();
+			var map = pawn.GetMap<CandyDefenceMap>();
+			if ( map != null )
+			{
+			
+				var tile = GetHoveredTile();
+				if ( CanPlaceOnTile( tile ) )
+				{
+					RemoveTower();
+					var tower = Library.Create<TowerBase>( CurrentTower );
+					tile.AddItem( tower );
+				}
 			}
 		}
 

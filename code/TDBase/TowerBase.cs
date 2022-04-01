@@ -47,7 +47,7 @@ namespace Degg.TDBase
 			{
 				return enemies;
 			}
-			var allEnemies = GetPlayerMap().EnemyEntities;
+			var allEnemies = GetPlayerMap()?.EnemyEntities;
 
 			foreach ( var enemy in allEnemies )
 			{

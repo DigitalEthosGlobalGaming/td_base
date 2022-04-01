@@ -29,5 +29,36 @@ namespace CandyDefence.Tools
 			element.Tool = this;
 			element.SelectTower( 4 );
 		}
+
+		public override void PlaceTower()
+		{
+			if (IsClient)
+			{
+				return;
+			}
+
+			var towerStoreItem = GetStoreItemForTower( CurrentTower );
+
+			var pawn = OwnerPawn();
+			var map = pawn?.GetMap<CandyDefenceMap>();
+
+			var tile = GetHoveredTile();
+			if ( CanPlaceOnTile( tile ) )
+			{
+
+				if ( towerStoreItem?.Buy( pawn ) ?? false )
+				{
+					var store = map.Store;
+					if ( store != null )
+					{
+						base.PlaceTower();
+						return;
+					}
+				}
+			}
+
+			pawn.OwnerPlaySound( "ui.navigate.deny" );
+
+		}
 	}
 }

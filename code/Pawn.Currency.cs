@@ -5,6 +5,7 @@ namespace Sandbox
 {
 	public partial class Pawn
 	{
+		[Net]
 		public CurrencyManager Currencies { get; set; }
 	}
 }

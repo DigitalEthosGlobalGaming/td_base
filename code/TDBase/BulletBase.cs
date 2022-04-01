@@ -31,6 +31,11 @@ namespace Degg.TDBase
 			Delete();
 		}
 
+		public Pawn GetPawn()
+		{
+			return Weapon?.GetPawn();
+		}
+
 		public virtual Vector3 GetTargetPosition()
 		{
 			var target = TargetPosition;

@@ -1,5 +1,7 @@
 ﻿using Degg.GridSystem;
+using Degg.Util;
 using Sandbox;
+using System.Collections.Generic;
 
 namespace Degg.TDBase
 {
@@ -10,6 +12,8 @@ namespace Degg.TDBase
 		public RoundBase Round { get; set; }
 		public int CurrentPositionIndex { get; set; }
 		public bool IsSetup { get; set; }
+
+		public Dictionary<string, float> Rewards { get; set; }
 
 		public Rotation TargetRotation { get; set; }
 
@@ -26,6 +30,7 @@ namespace Degg.TDBase
 		public override void Spawn()
 		{
 			base.Spawn();
+			Rewards = new Dictionary<string, float>();
 			Movespeed = 2f;
 			IsAlive = true;
 		}
@@ -129,10 +134,36 @@ namespace Degg.TDBase
 				return;
 			}
 
+			OnDeath( weapon, bullet );
 			Percentage = 0f;
 			IsAlive = false;
 			TargetRotation = Rotation.LookAt( Vector3.Random, Vector3.Down );
 			DeleteAsync( Rand.Float( 0.5f, 1.5f ) );
+			AdvLog.Info( weapon, bullet );
+			GiveRewards( weapon?.GetPawn() ?? bullet?.GetPawn() );
+		}
+
+		public virtual void GiveRewards(Pawn p)
+		{
+			if (p == null)
+			{
+				AdvLog.Warning( "Trying to give rewards to null Pawn" );
+				return;
+			}
+
+			var currencies = p.Currencies;
+			if (currencies != null)
+			{
+				foreach ( var item in Rewards )
+				{
+					currencies.AddMoney( item.Key, item.Value );
+				}
+			}
+		}
+
+		public virtual void OnDeath(WeaponBase weapon, BulletBase bullet)
+		{
+
 		}
 
 

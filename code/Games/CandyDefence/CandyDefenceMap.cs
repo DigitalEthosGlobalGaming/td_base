@@ -22,6 +22,7 @@ namespace CandyDefence
 			Init( 20, 20 );
 			AddRounds(CandyDefenceRounds.Rounds());
 			OwnerPawn?.SetTool<PlayerTool>();
+			OwnerPawn?.Currencies?.AddMoney( "Candies", 100 );
 
 			Store = new StoreBase();
 			var items = TowerStoreItem.GetStoreItems();
@@ -29,7 +30,6 @@ namespace CandyDefence
 			{
 				Store.AddStock( item );
 			}
-			Log.Info( Store );
 		}
 	}
 

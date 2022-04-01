@@ -9,15 +9,15 @@ namespace CandyDefence.Enemies
 	{
 		public override string EnemyName => "Chicken";
 		public override float BaseHealth => 5f;
-		public override int MinCash => 1;
-		public override int MaxCash => 1;
 		
 		public override void Setup()
 		{
 			base.Setup();
+			Rewards.Add( "Candies", 1 );
 			SetModel( "models/enemies/chicken.vmdl" );
 			Movespeed = 2f;
 		}
+
 
 		public override Vector3 GetMovementPosition( Vector3 previousPosition, Vector3 nextPosition, float percentage )
 		{

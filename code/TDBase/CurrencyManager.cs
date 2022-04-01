@@ -8,8 +8,10 @@ namespace Degg.TDBase
 		[Net]
 		public Dictionary<string, float> Currencies { get; set; }
 
-		public CurrencyManager()
+		public override void Spawn()
 		{
+			base.Spawn();
+			Transmit = TransmitType.Always;
 			Currencies = new Dictionary<string, float>();
 		}
 
@@ -31,9 +33,10 @@ namespace Degg.TDBase
 		{
 			SetMoney(name, GetMoney(name) + amount);
 		}
-		public void SubtractMoney(string name, float amount)
+		public float SubtractMoney(string name, float amount)
 		{
 			SetMoney( name, GetMoney( name ) - amount);
+			return GetMoney( name );
 		}
 
 		public float GetMoney(string name)

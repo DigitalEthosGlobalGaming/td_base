@@ -2,8 +2,7 @@
 using Sandbox;
 using System.Collections.Generic;
 using Degg.TDBase.Tools;
-using Degg.TDBase;
-using Degg.Util;
+using Degg;
 
 namespace CandyDefence.Tools
 {
@@ -11,6 +10,8 @@ namespace CandyDefence.Tools
 	{
 		public TowerPlacerTool Tool { get; set; }
 		public Panel Container { get; set; }
+		public Panel MoneyContainer { get; set; }
+		public Label Money { get; set; }
 		public List<TowerStoreItem> StoreItems { get; set; } = new List<TowerStoreItem>();
 
 		public float LastTick { get; set; }
@@ -77,7 +78,6 @@ namespace CandyDefence.Tools
 			if ( Tool != null)
 			{
 				var tower = next?.Tower?.ClassName;
-				Log.Info(next);
 				if ( tower != null )
 				{
 					TowerPlacerTool.SetCurrentTowerCmd( tower );
@@ -103,6 +103,12 @@ namespace CandyDefence.Tools
 				{
 					SelectNextTower();
 				}
+			}
+			
+			if ( Money != null )
+			{
+				var money = ClientUtil.GetPawn<Pawn>()?.Currencies?.GetMoney( "Candies" );
+				Money.Text = "$" + (money?.ToString() ?? "0");
 			}
 		}
 	}

@@ -14,6 +14,7 @@ namespace CandyDefence
 			{
 				Name = "Pellet Tower",
 				ClassName = "PelletTower",
+				Currency="Candies",
 				Price=10,
 				Description= "Basic tower that shoots candy at enemies."
 			} ) ;
@@ -22,7 +23,8 @@ namespace CandyDefence
 			{
 				Name = "Icecream Tower",
 				ClassName = "IcecreamTower",
-				Price = 10,
+				Currency = "Candies",
+				Price = 25,
 				Description = "Shoots a strong icecream at enemies doing damage."
 			} );
 
@@ -30,7 +32,8 @@ namespace CandyDefence
 			{
 				Name = "LollyPop Tower",
 				ClassName = "LollyPopTower",
-				Price = 10,
+				Currency = "Candies",
+				Price = 50,
 				Description = "Long range and accurate tower perfect for getting those hard to reach places."
 			} );
 
@@ -38,7 +41,8 @@ namespace CandyDefence
 			{
 				Name = "Milkshake Tower",
 				ClassName = "MilkshakeTower",
-				Price = 10,
+				Currency = "Candies",
+				Price = 75,
 				Description = "Launches and spills a milkshake on the ground on the enemy. Slowing and damaging enemies that walk over it."
 			} );
 
@@ -46,7 +50,8 @@ namespace CandyDefence
 			{
 				Name = "Cake Tower",
 				ClassName = "CakeTower",
-				Price = 10,
+				Currency = "Candies",
+				Price = 100,
 				Description = "Large cake falls from the sky damaging the enemy and stunning them."
 			} );
 
@@ -55,7 +60,6 @@ namespace CandyDefence
 
 		[Net]
 		public string ClassName { get; set; }
+
 	}
-
-
 }

@@ -20,3 +20,23 @@
 .hidden {
     display: none;
 }
+
+.money-container {
+    top: 0;
+    right: 0;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $c-primary-500;
+    position: absolute;
+    border-bottom-left-radius: $border-radius;
+    border-left-width: 3px;
+    border-bottom-width: 3px;
+    border-color: rgba(0,0,0,0.5);
+}
+
+.money {
+    font-size: $font-size-medium;
+    color: rgba(yellow,0.9);
+}
