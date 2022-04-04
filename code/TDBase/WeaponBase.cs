@@ -43,12 +43,14 @@ namespace Degg.TDBase
 			b.TargetEntity = target;
 			return (T) CreateBullet( b );
 		}
+
 		public T CreateBullet<T>(Vector3 target) where T: BulletBase, new()
 		{
 			var b = new T();
 			b.TargetPosition = target;
 			return (T)CreateBullet( b );
 		}
+
 		public BulletBase CreateBullet(BulletBase b)
 		{
 			b.StartPosition = Position;
@@ -56,6 +58,7 @@ namespace Degg.TDBase
 			b.Weapon = this;
 			return b;
 		}
+
 		public void UnEquipped()
 		{
 			if ( AttackTimer != null )

@@ -17,7 +17,7 @@ namespace CandyDefence.Towers
 			SetBodyGroup( "bottom", 0 );
 			SetBodyGroup( "middle", 0 );
 			SetBodyGroup( "top", 0 );
-			Equip<CannonWeapon>();
+			Equip<CakeTowerWeapon>();
 			// This weapon will make a cake fall from the sky and land on the spot doing massive damage.
 		}
 	}

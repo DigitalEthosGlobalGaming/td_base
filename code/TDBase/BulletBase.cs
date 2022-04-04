@@ -51,6 +51,11 @@ namespace Degg.TDBase
 			return target;
 		}
 
+		public virtual Rotation GetRotation(Vector3 newPosition)
+		{
+			return Rotation.LookAt( newPosition, Vector3.Up );
+		}
+
 		[Event.Tick.Server]
 		public void Tick()
 		{
@@ -60,8 +65,12 @@ namespace Degg.TDBase
 				Percentage = Percentage + deltaSpeed;
 
 				var target = GetTargetPosition();
-				Rotation = Rotation.LookAt( target - Position, Vector3.Up );
-				var dirVector = Rotation.Forward * deltaSpeed;
+				var newPositions = target - Position;
+
+				Rotation = GetRotation( newPositions );
+				var moveRotation = Rotation.LookAt( newPositions, Vector3.Up );
+
+				var dirVector = moveRotation.Forward * deltaSpeed;
 				Position = Position + dirVector;
 
 				var distance = Position.Distance( target );
