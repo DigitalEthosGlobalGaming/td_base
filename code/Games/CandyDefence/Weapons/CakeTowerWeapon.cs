@@ -10,7 +10,7 @@ namespace CandyDefence.Weapons
 		{
 			AttackInterval = 1000f;
 			Range = 250f;
-			Damage = 1f;
+			Damage = 10f;
 		}
 
 
@@ -22,8 +22,10 @@ namespace CandyDefence.Weapons
 			var target = GetTarget();
 			if (target != null)
 			{
+				Tower.TargetEntity = target;
 				var bullet = CreateBullet<CakeBullet>( target.Position );
-				bullet.Position = (target.Position + Vector3.Up * 200f);
+				bullet.MovementSpeed = 10f;
+				bullet.Position = (target.Position + Vector3.Up * 500f);
 			}
 		}
 	}

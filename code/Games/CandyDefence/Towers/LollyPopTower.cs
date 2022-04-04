@@ -15,7 +15,7 @@ namespace CandyDefence.Towers
 			SetModel( "models/towers/tower.vmdl" );
 			SetupPhysicsFromModel(Sandbox.PhysicsMotionType.Static);
 			SetMaterialGroup((int) TowerColors.Yellow);
-			SetBodyGroup( "bottom", 1 );
+			SetBodyGroup( "bottom", 0 );
 			SetBodyGroup( "middle", 1 );
 			SetBodyGroup( "top", 1 );
 			Equip<SniperWeapon>();

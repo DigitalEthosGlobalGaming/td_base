@@ -18,9 +18,14 @@ namespace CandyDefence.Bullets
 		public override void Explode()
 		{
 			base.Explode();
-			if (TargetEntity != null && TargetEntity.IsValid)
+
+			var targets = GetTargetsInRange( 250f );
+			foreach(var enemy in targets)
 			{
-				TargetEntity.TakeDamage( Weapon, Weapon.Damage );
+				if (enemy.IsValid)
+				{
+					enemy.TakeDamage( Weapon, Weapon.Damage );
+				}
 			}
 		}
 	}

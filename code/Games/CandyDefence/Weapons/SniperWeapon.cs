@@ -8,7 +8,7 @@ namespace CandyDefence.Weapons
 	{
 		public SniperWeapon()
 		{
-			AttackInterval = 5000f;
+			AttackInterval = 1000f;
 			Range = 1000f;
 			Damage = 1f;
 		}
@@ -16,11 +16,12 @@ namespace CandyDefence.Weapons
 		public override void Fire()
 		{
 			base.Fire();
+
 			var target = GetTarget();
 			if ( target != null )
 			{
 				Tower.TargetEntity = target;
-				target.TakeDamage( this, Damage );
+				CreateBullet<CannonBullet>( target );
 			}
 		}
 	}

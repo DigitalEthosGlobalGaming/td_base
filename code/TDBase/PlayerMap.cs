@@ -92,6 +92,7 @@ namespace Degg.TDBase
 		}
 
 
+
 		public override void OnSpaceSetup(GridSpace space)
 		{
 			space.SetModel( "models/tiles/tile.vmdl" );

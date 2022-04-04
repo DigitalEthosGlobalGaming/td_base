@@ -109,8 +109,11 @@ namespace Degg.TDBase
 				}
 			} else
 			{
-				Percentage = Percentage + (Movespeed * Time.Delta);
-				Rotation = Rotation.Lerp( Rotation, TargetRotation, Percentage );
+				if ( IsValid )
+				{
+					Percentage = Percentage + (Movespeed * Time.Delta);
+					Rotation = Rotation.Lerp( Rotation, TargetRotation, Percentage );
+				}
 			}
 		}
 

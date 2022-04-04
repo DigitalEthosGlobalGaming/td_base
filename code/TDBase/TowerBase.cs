@@ -49,6 +49,11 @@ namespace Degg.TDBase
 			}
 			var allEnemies = GetPlayerMap()?.EnemyEntities;
 
+			if ( allEnemies  == null)
+			{
+				return enemies;
+			}
+
 			foreach ( var enemy in allEnemies )
 			{
 				if ( enemy.EnemyHealth > 0 )

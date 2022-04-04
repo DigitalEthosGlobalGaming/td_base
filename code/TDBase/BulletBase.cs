@@ -1,5 +1,6 @@
 ﻿
 using Sandbox;
+using System.Collections.Generic;
 
 namespace Degg.TDBase
 {
@@ -12,6 +13,7 @@ namespace Degg.TDBase
 		public float MovementSpeed { get; set; }
 		public float Percentage { get; set; }
 		public bool IsExploded { get; set; }
+
 		public override void Spawn()
 		{
 			base.Spawn();
@@ -54,6 +56,30 @@ namespace Degg.TDBase
 		public virtual Rotation GetRotation(Vector3 newPosition)
 		{
 			return Rotation.LookAt( newPosition, Vector3.Up );
+		}
+
+		public List<EnemyBase> GetEnemies()
+		{
+			var currentRound = Weapon?.Tower?.GetPlayerMap()?.CurrentRound;
+			return currentRound?.EnemyEntities ?? new List<EnemyBase>();
+		}
+
+		public List<EnemyBase> GetTargetsInRange(Vector3 position, float radius )
+		{
+			return GetEnemies().FindAll( ( enemy ) => {
+				if ( enemy.IsValid )
+				{
+					var distance = enemy.Position.Distance( position );
+					return distance <= radius;
+				}
+
+				return false;
+			} );
+		}
+
+		public List<EnemyBase> GetTargetsInRange(float size )
+		{
+			return GetTargetsInRange( Position, size );
 		}
 
 		[Event.Tick.Server]
